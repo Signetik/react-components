@@ -1,0 +1,164 @@
+.section-header {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.section-header img {
+  margin: 0;
+  padding: 0;
+  border-top-color: var(--main-color);
+  border-top-style: solid;
+  border-top-width: 0.02pt;
+  height: 200px;
+  width: 100%;
+}
+
+.section-caption {
+  font-family: "Montserrat", sans-serif;
+  font-size: 60pt;
+  font-weight: 400; /* light */
+  color: white;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+}
+
+.section-body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 11pt;
+  font-weight: 300; /* light */
+  color: black;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 0;
+  text-align: center;
+  line-height: 16pt;
+}
+
+.section-text {
+  margin-bottom: 16pt;
+}
+
+.section-text-bold {
+  font-weight: 800;
+  color: var(--main-color);
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.section-text-header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 22pt;
+  font-weight: 700; /* bold */
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.section-body table {
+  width: 100%;
+  border: border-collapse;
+}
+
+.section-body td h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16pt;
+  font-weight: 800;
+  color: var(--main-color);
+  margin-bottom: 10px;
+}
+
+.section-body td h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 12pt;
+  font-weight: 800;
+  color: var(--main-color);
+  margin: 10px;
+}
+
+.section-body td p {
+  margin: 0;
+  padding: 0;
+}
+
+.section-body td {
+  width: 20%;
+  text-align: center;
+  background-color: rgba(120, 79, 95, 0.15);
+  border: 1px solid rgba(120, 79, 95, 0.3);
+  font-family: "Montserrat", sans-serif;
+  font-size: 11pt;
+  font-weight: 300; /* light */
+  padding: 20px;
+  line-height: 16pt;
+  vertical-align: top;
+}
+
+.section-body table tr:first-child td {
+  border-top: 0;
+}
+.section-body table tr td:first-child {
+  border-left: 0;
+}
+.section-body table tr:last-child td {
+  border-bottom: 0;
+}
+.section-body table tr td:last-child {
+  border-right: 0;
+}
+
+/* TODO: add scss and refactor all the styles and also sx architecture */
+.cols {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.cols .column {
+  flex: 1;
+}
+
+.cols--4 .column {
+  width: calc((75%) / 4);
+}
+
+.products__4-imgs-sec p {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: 40px;
+  background-color: var(--main-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.products__4-imgs-sec p div {
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12pt;
+  font-weight: 600;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+@media (max-width: 800px) {
+  .section-header img {
+    height: 100px;
+    width: 100%;
+  }
+
+  .section-caption {
+    font-size: 36pt;
+  }
+}

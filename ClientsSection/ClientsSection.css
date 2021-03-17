@@ -1,0 +1,31 @@
+.clientsSec {
+  padding: 50px 0 60px;
+  background: var(--main-color-dim25);
+}
+
+.clientContainer {
+  width: calc(100% - 30px);
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+/* TODO: This is temp, will need to be replaced with a carousel */
+.clientsWrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 800px) {
+  .clientsSec {
+    padding: 20px 0 60px;
+  }
+  .clientContainer {
+    width: calc(100% - 30px);
+    padding: 0 5px;
+    margin: 0 auto;
+  }
+  .clientsWrap {
+    flex-direction: column;
+    justify-content: center;
+  }
+}

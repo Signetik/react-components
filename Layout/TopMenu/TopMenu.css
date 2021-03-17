@@ -1,0 +1,145 @@
+.menu {
+  background-color: var(--main-color);
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20%;
+  padding-right: 20%;
+  cursor: pointer;
+}
+
+.navbar {
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* .menuitem {
+  #position: static;
+  #border: red;
+  #width: 20%;
+} */
+
+.menuitem:focus {
+  outline: none;
+}
+
+.menuitem-head {
+  font-family: poppins, sans-serif;
+  font-weight: bold;
+  font-size: 13pt;
+  color: white;
+  height: 75px;
+  line-height: 75px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (max-width: 800px) {
+  .menu {
+    height: 50px;
+  }
+  .menuitem-head {
+    height: 50px;
+    line-height: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 11pt;
+  }
+}
+
+@media (max-width: 600px) {
+  .menu {
+    height: 50px;
+  }
+  .menuitem-head {
+    height: 50px;
+    line-height: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 10pt;
+  }
+}
+
+.menuitem-head-disabled {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.menuitem-head:focus {
+  outline: none;
+}
+
+.menuitem-headxyz:hover {
+  background-color: white;
+  color: #784f5f;
+}
+/* 
+.menuitem-drop {
+} */
+
+.menuitem-carat {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid white;
+  /* #background-color: white; */
+  z-index: 2;
+  transform: translate(+30px, -10px);
+}
+
+.menuitem-head {
+  text-decoration: none;
+}
+
+.menuitem-sub {
+  position: absolute;
+  /* #display: none; */
+  background-color: white;
+  /* #left: 33%; */
+  /* #margin-left: 30px; */
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding-bottom: 10px;
+}
+
+.menuitem-subhead {
+  padding: 10px;
+  padding-bottom: 5px;
+  z-index: 1;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11pt;
+  font-weight: 600; /* semibold */
+  color: #784f5f;
+}
+
+.menuitem-subhead:hover {
+  background-color: #784f5f;
+  color: white;
+}
+
+.menuitem-subitem {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10pt;
+  color: #784f5f;
+}
+
+.menuitem-subitem:hover {
+  color: white;
+  background-color: #784f5f;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 75px;
+}

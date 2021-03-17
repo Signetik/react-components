@@ -1,0 +1,140 @@
+.showcase {
+  position: relative;
+  text-align: center;
+}
+
+.backtext {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  color: white;
+  padding: 50px;
+  background-color: var(--main-color-dim70);
+  width: 60%;
+}
+
+.backtext1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25pt;
+  line-height: 30pt;
+  font-weight: 300; /* light */
+}
+
+.backtext2in {
+  font-family: "Montserrat", sans-serif;
+  font-size: 47pt;
+  line-height: 55pt;
+  font-weight: 900; /* black */
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.backtext2out {
+  font-family: "Montserrat", sans-serif;
+  font-size: 47pt;
+  line-height: 55pt;
+  font-weight: 900; /* black */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide-container {
+  width: 100%;
+  margin: auto;
+}
+
+h3 {
+  text-align: center;
+}
+
+.each-slide {
+  height: auto;
+}
+
+.each-slide > img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  opacity: 1.0;
+  /*object-fit: cover;
+  object-position: 0% 100%;*/
+}
+
+.each-slide span {
+  padding: 20px;
+  font-size: 20px;
+  background: #efefef;
+  text-align: center;
+}
+
+.each-fade {
+  display: flex;
+}
+
+.each-fade .image-container {
+  width: 75%;
+  overflow: hidden;
+}
+
+.each-fade .image-container img {
+  width: 100%;
+  height: 400px;
+}
+
+.each-fade h2 {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background: #adceed;
+}
+
+@media (max-width: 800px) {
+  .backtext {
+    padding: 25px;
+  }
+
+  .backtext1 {
+    font-size: 18pt;
+    line-height: 24pt;
+  }
+
+  .backtext2in {
+    font-size: 24pt;
+    line-height: 38pt;
+    font-weight: 700;
+  }
+
+  .backtext2out {
+    font-size: 24pt;
+    line-height: 38pt;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 600px) {
+  .backtext {
+    padding: 15px;
+  }
+
+  .backtext1 {
+    font-size: 12pt;
+    line-height: 16pt;
+  }
+
+  .backtext2in {
+    font-size: 18pt;
+    line-height: 28pt;
+    font-weight: 700;
+  }
+
+  .backtext2out {
+    font-size: 18pt;
+    line-height: 28pt;
+    font-weight: 700;
+  }
+}

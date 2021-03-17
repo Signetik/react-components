@@ -1,0 +1,70 @@
+.product-page__tech-specs {
+  margin: 50px 10%;
+  padding: 50px;
+  background: #e2dfe2;
+}
+
+.product-page__tech-specs h3 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 40px;
+  color: var(--main-color);
+}
+
+.product-page__tech-specs ul {
+  padding-left: 30px;
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.product-page__tech-specs__content {
+  display: none;
+  border-top: 1px solid #222;
+}
+
+.product-page__tech-specs__buttonbar {
+  display:flex;
+  justify-content:center;
+  width: auto;
+}
+
+.debug {
+}
+
+.product-page__tech-specs button {
+  display: block;
+  background: transparent;
+  font-size: 24px;
+  border: 0;
+  text-decoration: underline;
+  margin: 20px auto 0;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.product-page__buy-links {
+  background: var(--main-color);
+  margin-left: auto;
+  width:100%;
+  color: #fff;
+  border-top: 1px solid #fff;
+}
+
+.product-page__buy-links-sub {
+  display:flex;
+}
+.product-page__tech-specs button:hover {
+  opacity: 0.85;
+}
+
+.product-page__tech-specs.isExpanded .product-page__tech-specs__content {
+  display: block;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.product-page__tech-specs.isExpanded button {
+  margin-top: 40px;
+}
