@@ -1,6 +1,8 @@
 import React from "react"
 import LogoImg from "../../../images/Signetik Logo_Color_HZ_Registered.png"
 
+import "./Header.css"
+
 const Header = () => (
   <div className="banner">
     <img src={LogoImg} className="logo-img" alt="Signetik" />

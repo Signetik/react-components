@@ -1,0 +1,51 @@
+.logo-img {
+  height: 60px;
+}
+
+.banner {
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.banner img {
+  margin: 0px;
+  float: left;
+}
+
+.bannerspace {
+  overflow: hidden;
+  width: auto;
+}
+
+.infobar {
+  display: flex;
+  align-items: center;
+  float: right;
+  position:absolute;
+  right:100px;
+}
+
+.phone {
+  vertical-align: baseline;
+  font-size: 11pt;
+  color: var(--main-color);
+}
+
+.vertbar {
+  border-left: 1px solid var(--main-color);
+  width: 1px;
+  height: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.email {
+  font-size: 11pt;
+  color: var(--main-color);
+}
+
