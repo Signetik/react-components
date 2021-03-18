@@ -161,4 +161,23 @@
   .section-caption {
     font-size: 36pt;
   }
+  .cols {
+    flex-direction: column;
+    align-content: center;
+  }
+  .cols--4 .column {
+    width: 100%;
+  }
+  .cols--4 .column p {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    text-align: center;
+  }
+  .cols--4 .column p div {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    text-align: center;
+  }
 }
