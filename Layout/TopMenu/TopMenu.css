@@ -48,6 +48,11 @@
   }
 }
 
+.menuitem-subhead {
+  display: block;
+  text-decoration: none;
+}
+
 @media (max-width: 600px) {
   .menu {
     height: 50px;
@@ -69,9 +74,8 @@
   outline: none;
 }
 
-.menuitem-headxyz:hover {
-  background-color: white;
-  color: #784f5f;
+.menuitem-head:hover {
+  color: white;
 }
 /* 
 .menuitem-drop {

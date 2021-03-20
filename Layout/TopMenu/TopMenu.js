@@ -2,6 +2,8 @@ import React from "react"
 import "./TopMenu.css"
 import TopMenuItem, { TopMenuSubItem } from "./TopMenuItem"
 
+import menudata from '../../../data/topmenu.json';
+
 class TopMenu extends React.Component {
   constructor(props) {
     super(props)
@@ -14,10 +16,15 @@ class TopMenu extends React.Component {
     return (
       <div className="navbar" id="navbar">
       <div className="menu" id="menu">
+        { menudata.map(item => (
+          <TopMenuItem label={item.label} indexTab={item.indexTab} linkTo={item.linkTo}>
+            {item.label}
+          </TopMenuItem>
+        ))}
+        {/*}
         <TopMenuItem label={"HOME"} indexTab={0} linkTo="/">
           HOME
         </TopMenuItem>
-        {/*}
         <TopMenuItem
           label={"SOLUTIONS"}
           disabled={true}
@@ -31,7 +38,6 @@ class TopMenu extends React.Component {
           <TopMenuSubItem linkTo="/solutions">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/solutions">xyz</TopMenuSubItem>
         </TopMenuItem>
-          {*/}
         <TopMenuItem
           label={"PRODUCTS"}
           subMenu={false}
@@ -39,7 +45,6 @@ class TopMenu extends React.Component {
           indexTab={2}
           linkTo="/products"
         >
-          {/*}
           <TopMenuSubItem linkTo="/products">Products</TopMenuSubItem>
           <TopMenuSubItem linkTo="/products">SigCell</TopMenuSubItem>
           <TopMenuSubItem linkTo="/products">SigFi</TopMenuSubItem>
@@ -48,7 +53,6 @@ class TopMenu extends React.Component {
           <TopMenuSubItem linkTo="/products">SigSense</TopMenuSubItem>
           <TopMenuSubItem linkTo="/products">SigGate</TopMenuSubItem>
           <TopMenuSubItem linkTo="/products">SigNet</TopMenuSubItem>
-          {*/}
         </TopMenuItem>
         <TopMenuItem
           label={"SERVICES"}
@@ -58,13 +62,11 @@ class TopMenu extends React.Component {
           subMenu={false}
           linkTo="/services"
         >
-          {/*}
           <TopMenuSubItem linkTo="/services">services</TopMenuSubItem>
           <TopMenuSubItem linkTo="/services">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/services">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/services">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/services">xyz</TopMenuSubItem>
-          {*/}
         </TopMenuItem>
         {/*}
         <TopMenuItem
@@ -81,7 +83,6 @@ class TopMenu extends React.Component {
           <TopMenuSubItem linkTo="/technologies">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/technologies">xyz</TopMenuSubItem>
         </TopMenuItem>
-          {*/}
         <TopMenuItem
           label={"ABOUT"}
           onClick={this.props.onAbout}
@@ -94,6 +95,7 @@ class TopMenu extends React.Component {
           <TopMenuSubItem linkTo="/about">xyz</TopMenuSubItem>
           <TopMenuSubItem linkTo="/about">xyz</TopMenuSubItem>
         </TopMenuItem>
+          {*/}
       </div>
       </div>
     )
