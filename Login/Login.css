@@ -19,3 +19,13 @@
     visibility: hidden;
     opacity: 0;
 }
+
+.btn-signetik {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.btn-signetik:hover {
+    color: white;
+    background-color: var(--main-color-dim70);
+}
