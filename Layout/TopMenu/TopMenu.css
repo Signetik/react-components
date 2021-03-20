@@ -116,11 +116,11 @@
   font-family: "Montserrat", sans-serif;
   font-size: 11pt;
   font-weight: 600; /* semibold */
-  color: #784f5f;
+  color: var(--main-color);
 }
 
 .menuitem-subhead:hover {
-  background-color: #784f5f;
+  background-color: var(--main-color);
   color: white;
 }
 
@@ -130,12 +130,12 @@
   padding-right: 10px;
   font-family: "Montserrat", sans-serif;
   font-size: 10pt;
-  color: #784f5f;
+  color: var(--main-color);
 }
 
 .menuitem-subitem:hover {
   color: white;
-  background-color: #784f5f;
+  background-color: var(--main-color);
 }
 
 .sticky {
