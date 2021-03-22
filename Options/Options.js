@@ -9,7 +9,7 @@ function Menu() {
     <div>
       <Nav className="justify-content-center" variant="signetik">
         <Nav.Item>
-          <Nav.Link as={Link} to="/" className="nav-link-signetik" variant="signetik">Dashboard</Nav.Link>
+          <Nav.Link as={Link} to="/general" className="nav-link-signetik" variant="signetik">General</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link as={Link} to="/lora" className="nav-link-signetik" variant="signetik">LoRa</Nav.Link>

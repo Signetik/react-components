@@ -44,7 +44,7 @@ export default function Login(props) {
   }
 
   if (props.token.length > 0) {
-    return (<Redirect to='/' />)
+    return (<Redirect to='/general' />)
   }
 
   return (
