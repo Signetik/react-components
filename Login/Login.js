@@ -35,7 +35,7 @@ export default function Login(props) {
           props.setToken(data.token)
         }
         else {
-          throw "Invalid login"
+          throw new Error("Invalid login")
         }
       }).catch((error) => {
         setAlert('Failed to login, ' + error.toString())
@@ -44,7 +44,7 @@ export default function Login(props) {
   }
 
   if (props.token.length > 0) {
-    return (<Redirect to='/dashboard' />)
+    return (<Redirect to='/' />)
   }
 
   return (
