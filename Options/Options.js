@@ -30,10 +30,10 @@ function getConfig(token) {
   console.log("getConfig")
 
   return new Promise((resolve, reject) => {
-    fetch(`http://10.10.10.4:8882/?token=${token}`, requestOptions)
+    fetch(`http://10.10.10.4:8882/api/config?token=${token}`, requestOptions)
       .then(response => response.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         if (data.error) {
           reject("Invalid Response")
         }

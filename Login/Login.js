@@ -27,7 +27,7 @@ export default function Login(props) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
     const md5password = MD5(`${password}`).toString();
-    fetch(`http://10.10.10.4:8882/login?user=${props.user}&password=${md5password}`, requestOptions)
+    fetch(`http://10.10.10.4:8882/api/login?user=${props.user}&password=${md5password}`, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)
