@@ -25,7 +25,6 @@ export default function Login(props) {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      /*body: JSON.stringify({ fruit: 'Steve' })*/
     };
     const md5password = MD5(`${password}`).toString();
     fetch(`http://10.10.10.4:8882/login?user=${props.user}&password=${md5password}`, requestOptions)
