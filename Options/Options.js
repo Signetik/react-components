@@ -4,6 +4,9 @@ import Button from "react-bootstrap/Button"
 import { Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 
+//const baseurl = "http://10.10.10.4:8882"
+const baseurl = ""
+
 function Menu() {
   return (
     <div>
@@ -22,6 +25,34 @@ function Menu() {
   )
 }
 
+function handleSubmit(event, props) {
+  event.preventDefault();
+  //setTimeout(() => {setAlertVisible(false)}, 5000)
+
+  const post_data = {"data": JSON.stringify(props.config) }
+  const body = post_data
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: body
+  };
+  fetch(`${baseurl}/api/config?token=${props.token}`, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      if (data.login === "success") {
+        props.setToken(data.token)
+      }
+      else {
+        throw new Error("Invalid login")
+      }
+    }).catch((error) => {
+    //setAlert('Failed to login, ' + error.toString())
+    //setAlertVisible(true)
+  });
+}
+
 function getConfig(token) {
   const requestOptions = {
     method: 'GET',
@@ -30,7 +61,7 @@ function getConfig(token) {
   console.log("getConfig")
 
   return new Promise((resolve, reject) => {
-    fetch(`/api/config?token=${token}`, requestOptions)
+    fetch(`${baseurl}/api/config?token=${token}`, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)
@@ -71,6 +102,8 @@ export function ConfigLoader(props) {
             })
             .catch((error) => {
               console.log(error)
+              console.log("redirecting to /login")
+              props.setToken("")
               history.push("/login")
               //setAlert('Failed to receive configuration, ' + error.toString())
               //setAlertVisible(true)
@@ -158,7 +191,9 @@ export function LoRaOptions(props) {
         </Col>
       </Row>
       <Row><Col><br /></Col></Row>
-      <Form>
+      <Form onSubmit={(event) => {
+          handleSubmit(event, props)
+        }} >
         <Form.Row>
           <Form.Group as={Col}>
           </Form.Group>
@@ -216,7 +251,7 @@ export function LoRaOptions(props) {
           <Form.Group as={Col}>
           </Form.Group>
           <Form.Group as={Col}>
-            <Button variant="signetik">Save</Button>
+            <Button type="submit" variant="signetik">Save</Button>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>

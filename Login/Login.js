@@ -5,9 +5,11 @@ import Alert from "react-bootstrap/Alert"
 import MD5 from "crypto-js/md5";
 import { Redirect } from "react-router-dom"
 
-
 import "bootstrap/dist/css/bootstrap.css";
 import "./Login.css";
+
+//const baseurl = "http://10.10.10.4:8882"
+const baseurl = ""
 
 export default function Login(props) {
   const [password, setPassword] = useState("");
@@ -27,7 +29,7 @@ export default function Login(props) {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     };
     const md5password = MD5(`${password}`).toString();
-    fetch(`/api/login?user=${props.user}&password=${md5password}`, requestOptions)
+    fetch(`${baseurl}/api/login?user=${props.user}&password=${md5password}`, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)
