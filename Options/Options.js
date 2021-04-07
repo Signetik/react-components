@@ -35,7 +35,7 @@ function handleSubmit(event, props) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
-    body: body
+    body: JSON.stringify(body)
   };
   fetch(`${baseurl}/api/config?token=${props.token}`, requestOptions)
     .then(response => response.json())
@@ -65,11 +65,12 @@ function getConfig(token) {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        if (data.error) {
+        var json = data.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m)
+        if (json.error) {
           reject("Invalid Response")
         }
         else {
-          resolve(JSON.parse(data))
+          resolve(JSON.parse(json))
         }
       });
   })
@@ -90,7 +91,7 @@ export function ConfigLoader(props) {
       if (mounted.current) {
         props.setToken(newToken)
 
-        if (!props.config.SX130x_conf) {
+        if (!props.config.gateway_conf) {
           console.log("Requesting config [" + newToken + "]")
           getConfig(newToken)
             .then((result) => {
@@ -125,7 +126,7 @@ export function ConfigLoader(props) {
 }
 
 export function GeneralOptions(props) {
-  if (!props.config.SX130x_conf) {
+  if (!props.config.gateway_conf) {
     return (<div>Loading...</div>)
   }
   return (
@@ -180,7 +181,7 @@ export function GeneralOptions(props) {
 }
 
 export function LoRaOptions(props) {
-  if (!props.config.SX130x_conf) {
+  if (!props.config.gateway_conf) {
     return (<div>Loading...</div>)
   }
   return (
@@ -232,13 +233,34 @@ export function LoRaOptions(props) {
           <Form.Group as={Col}>
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Server Port</Form.Label>
+            <Form.Label>Server Downlink Port</Form.Label>
             <Form.Control
               type="input"
               value={props.config.gateway_conf ? props.config.gateway_conf.serv_port_down : "UNDEFINED"}
               onChange={(e) => {
                 props.config.gateway_conf.serv_port_down = e.target.value
-                props.setConfig(props.config)
+                //props.setConfig(props.config)
+              }}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Server Uplink Port</Form.Label>
+            <Form.Control
+              type="input"
+              value={props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "UNDEFINED"}
+              onChange={(e) => {
+                props.config.gateway_conf.serv_port_up = e.target.value
+                //props.setConfig(props.config)
               }}
             ></Form.Control>
           </Form.Group>
@@ -280,7 +302,7 @@ function Admin(props) {
 }
 
 export function AdminOptions(props) {
-  if (!props.config.SX130x_conf) {
+  if (!props.config.gateway_conf) {
     return (<div>Loading...</div>)
   }
   return (
