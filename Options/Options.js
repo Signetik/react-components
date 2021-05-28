@@ -181,9 +181,14 @@ export function GeneralOptions(props) {
 }
 
 export function LoRaOptions(props) {
+  const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up: "UNDEFINED")
+  const [serverdownlink, setServerdownlink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_down: "UNDEFINED")
+  const [serveraddress, setServeraddress] = useState(props.config.gateway_conf ? props.config.gateway_conf.server_address : "UNDEFINED")
+
   if (!props.config.gateway_conf) {
     return (<div>Loading...</div>)
   }
+
   return (
     <Container fluid="true" >
       <Row fluid="true">
@@ -223,8 +228,9 @@ export function LoRaOptions(props) {
             <Form.Label>Server Host</Form.Label>
             <Form.Control
               type="input"
-              value={props.config.gateway_conf ? props.config.gateway_conf.server_address : "UNDEFINED"}
+              value={serveraddress}
               onChange={(e) => {
+                setServeraddress(e.target.value)
                 props.config.gateway_conf.server_address = e.target.value
                 props.setConfig(props.config)
               }}
@@ -236,10 +242,11 @@ export function LoRaOptions(props) {
             <Form.Label>Server Downlink Port</Form.Label>
             <Form.Control
               type="input"
-              value={props.config.gateway_conf ? props.config.gateway_conf.serv_port_down : "UNDEFINED"}
+              value={serverdownlink}
               onChange={(e) => {
-                props.config.gateway_conf.serv_port_down = e.target.value
-                //props.setConfig(props.config)
+                setServerdownlink(e.target.value)
+                props.config.gateway_conf.serv_port_down = parseInt(e.target.value)
+                props.setConfig(props.config)
               }}
             ></Form.Control>
           </Form.Group>
@@ -257,10 +264,11 @@ export function LoRaOptions(props) {
             <Form.Label>Server Uplink Port</Form.Label>
             <Form.Control
               type="input"
-              value={props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "UNDEFINED"}
+              value={serveruplink}
               onChange={(e) => {
-                props.config.gateway_conf.serv_port_up = e.target.value
-                //props.setConfig(props.config)
+                setServeruplink(e.target.value)
+                props.config.gateway_conf.serv_port_up = parseInt(e.target.value)
+                props.setConfig(props.config)
               }}
             ></Form.Control>
           </Form.Group>
