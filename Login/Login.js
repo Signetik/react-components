@@ -10,6 +10,7 @@ import "./Login.css";
 
 //const baseurl = "http://10.10.10.4:8882"
 const baseurl = ""
+let validtoken = false
 
 export default function Login(props) {
   const [password, setPassword] = useState("");
@@ -45,9 +46,43 @@ export default function Login(props) {
       });
   }
 
-  if (props.token.length > 0) {
+  function validateToken(token) {
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    };
+    console.log("validate Existing Token")
+
+    return new Promise((resolve, reject) => {
+      fetch(`${baseurl}/api/login?token=${token}`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          if (data.error === "true") {
+            console.log("Token Not Valid")
+            reject()
+          }
+          else {
+            console.log("Token Valid")
+            resolve()
+          }
+        });
+    })
+  }
+
+  if (props.token.length > 0 && validtoken === false) {
+    validateToken(props.token).then( () => {
+      validtoken = true
+    }).catch( () => {
+      console.log("No rediret")
+      props.setToken("");
+     });
+  }
+  else {
+    console.log("redirect to general")
     return (<Redirect to='/general' />)
   }
+
 
   return (
   <div className="Login">
