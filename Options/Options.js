@@ -18,6 +18,9 @@ function Menu() {
           <Nav.Link as={Link} to="/lora" className="nav-link-signetik" variant="signetik">LoRa</Nav.Link>
         </Nav.Item>
         <Nav.Item>
+          <Nav.Link as={Link} to="/patch" className="nav-link-signetik" variant="signetik">Patch Gateway</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
           <Nav.Link as={Link} to="/admin" className="nav-link-signetik" variant="signetik">Admin</Nav.Link>
         </Nav.Item>
       </Nav>
@@ -393,6 +396,111 @@ export function LoRaOptions(props) {
       </Form>
     </Container>
   )
+}
+
+export function PatchOptions(props) {
+  const [selectedFile, setSelectedFile] = useState()
+	const [isFilePicked, setIsFilePicked] = useState(false)
+  const [error, setError] = useState()
+
+  const fileChangeHandler = (event) => {
+		setSelectedFile(event.target.files[0])
+		setIsFilePicked(true)
+	};
+
+  const handleFileSubmission = e => {
+    e.preventDefault() //prevent the form from submitting
+		const formData = new FormData();
+
+		formData.append('gatewayfile', selectedFile)
+    setError("")
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData
+    };
+    fetch(`${baseurl}/api/upload?token=${props.token}`, requestOptions)
+			.then((response) => response.json())
+			.then((result) => {
+				console.log('Success:', result)
+			})
+			.catch((error) => {
+        const { code } = error?.response?.data
+        switch (code) {
+          case "FILE_MISSING":
+            setError("Please select a file before uploading!")
+            break
+            case "INVALID_TYPE":
+            setError("This file type is not supported! Only .tar.gz files are allowed")
+            break
+          default:
+            setError("Sorry! Something went wrong. Please try again later")
+            break
+        }
+			})
+	}
+
+  if (!props.config.gateway_conf) {
+    return (<div>Loading...</div>)
+  }
+
+  return(
+    <Container fluid="true" >
+      <Row fluid="true">
+        <Col>
+          <Menu />
+        </Col>
+      </Row>
+      <Row><Col><br /></Col></Row>
+      <Form>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={9}>
+            <Form.File
+              id="patch-file"
+              label="Select patch file"
+              accept=".jpg, .png, .txz"
+              custom
+              onChange={fileChangeHandler} />
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+          {isFilePicked ? (
+            <div>
+              <Form.Label>Filename: {selectedFile.name}</Form.Label>
+              <Form.Label>Filetype: {selectedFile.type}</Form.Label>
+              <Form.Label>Size in bytes: {selectedFile.size}</Form.Label>
+              <Form.Label>
+                lastModifiedDate:{' '}
+                {selectedFile.lastModifiedDate.toLocaleDateString()}
+              </Form.Label>
+            </div>
+          ) : (
+            <Form.Label></Form.Label>
+          )}
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Button type="submit"  variant="signetik" onClick={handleFileSubmission}>Upload</Button>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        {error && <Alert variant="danger">{error}</Alert>}
+      </Form>
+    </Container>
+	)
 }
 
 function Admin(props) {
