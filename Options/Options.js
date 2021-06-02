@@ -191,7 +191,7 @@ export function GeneralOptions(props) {
 export function LoRaOptions(props) {
   console.log(props.config.gateway_conf)
 
-  const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "WOWZER")
+  const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "UNDEFINED")
   const [serverdownlink, setServerdownlink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_down : "UNDEFINED")
   const [serveraddress, setServeraddress] = useState(props.config.gateway_conf ? props.config.gateway_conf.server_address : "UNDEFINED")
   const [keepaliveInterval, setKeepaliveInterval] = useState(props.config.gateway_conf ? props.config.gateway_conf.keepalive_interval : "UNDEFINED")
@@ -265,13 +265,18 @@ export function LoRaOptions(props) {
             <Form.Label>Server Host</Form.Label>
             <Form.Control
               type="input"
-              value={serveraddress}
+              value={(serveraddress === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.server_address : serveraddress}
               onChange={(e) => {
                 setServeraddress(e.target.value)
+                setField('address', e.target.value)
                 props.config.gateway_conf.server_address = e.target.value
                 props.setConfig(props.config)
               }}
+              isInvalid={ !!errors.address }
             ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.address }
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
@@ -279,7 +284,7 @@ export function LoRaOptions(props) {
             <Form.Label>Keepalive Interval</Form.Label>
             <Form.Control
               type="input"
-              value={keepaliveInterval}
+              value={(keepaliveInterval === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.keepalive_interval : keepaliveInterval}
               onChange={(e) => {
                 setKeepaliveInterval(e.target.value)
                 setField('keepalive', e.target.value)
@@ -302,7 +307,7 @@ export function LoRaOptions(props) {
           <Form.Label>Server Downlink Port</Form.Label>
           <Form.Control
             type="input"
-            value={serverdownlink}
+            value={(serverdownlink === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.serv_port_down : serverdownlink}
             onChange={(e) => {
               console.log(props.config.gateway_conf.serv_port_down)
               setServerdownlink(e.target.value)
@@ -322,7 +327,7 @@ export function LoRaOptions(props) {
             <Form.Label>Server Uplink Port</Form.Label>
             <Form.Control
               type="input"
-              value={serveruplink}
+              value={(serveruplink  === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.serv_port_up : serveruplink}
               onChange={(e) => {
                 setServeruplink(e.target.value)
                 setField('uplink', e.target.value)
@@ -345,7 +350,7 @@ export function LoRaOptions(props) {
           <Form.Label>Stat Interval</Form.Label>
           <Form.Control
             type="input"
-            value={statInterval}
+            value={(statInterval  === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.stat_interval : statInterval}
             onChange={(e) => {
               setStatInterval(e.target.value)
               setField('stat', e.target.value)
@@ -364,7 +369,7 @@ export function LoRaOptions(props) {
             <Form.Label>Push Timeout (ms)</Form.Label>
             <Form.Control
               type="input"
-              value={pushTimeoutMs}
+              value={(pushTimeoutMs  === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.push_timeout_ms : pushTimeoutMs}
               onChange={(e) => {
                 setPushTimeoutMs(e.target.value)
                 setField('pushTimeout', e.target.value)
