@@ -25,9 +25,13 @@ function Menu() {
   )
 }
 
-function handleSubmit(event, props) {
+function handleSubmit(event, props, newErrors) {
   event.preventDefault();
   //setTimeout(() => {setAlertVisible(false)}, 5000)
+
+  if(Object.keys(newErrors).length > 0) {
+    return
+  }
 
   const post_data = {"data": JSON.stringify(props.config) }
   const body = post_data
@@ -65,11 +69,12 @@ function getConfig(token) {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        var json = data.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m)
-        if (json.error) {
+
+        if (data.error) {
           reject("Invalid Response")
         }
         else {
+          var json = data.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m)
           resolve(JSON.parse(json))
         }
       });
@@ -120,7 +125,7 @@ export function ConfigLoader(props) {
     return function cleanup() {
       mounted.current = false
     }
-  }, [props])
+  }, [props, history])
 
   return (<div></div>)
 }
@@ -181,12 +186,37 @@ export function GeneralOptions(props) {
 }
 
 export function LoRaOptions(props) {
-  const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up: "UNDEFINED")
-  const [serverdownlink, setServerdownlink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_down: "UNDEFINED")
+  console.log(props.config.gateway_conf)
+
+  const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "WOWZER")
+  const [serverdownlink, setServerdownlink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_down : "UNDEFINED")
   const [serveraddress, setServeraddress] = useState(props.config.gateway_conf ? props.config.gateway_conf.server_address : "UNDEFINED")
+  const [keepaliveInterval, setKeepaliveInterval] = useState(props.config.gateway_conf ? props.config.gateway_conf.keepalive_interval : "UNDEFINED")
+  const [statInterval, setStatInterval] =  useState(props.config.gateway_conf ? props.config.gateway_conf.stat_interval : "UNDEFINED")
+  const [pushTimeoutMs, setPushTimeoutMs] =  useState(props.config.gateway_conf ? props.config.gateway_conf.push_timeout_ms : "UNDEFINED")
+  const [errors, setErrors] = useState({})
 
   if (!props.config.gateway_conf) {
     return (<div>Loading...</div>)
+  }
+
+  const findConfigErrors = () => {
+    const newErrors = {}
+    if (!serveruplink || serveruplink === 'UNDEFINED' || parseInt(serveruplink) < 1 || parseInt(serveruplink) > 65535) newErrors.uplink = 'ports must be between 1-65535'
+    if (!serverdownlink || serverdownlink === 'UNDEFINED' || parseInt(serverdownlink) < 1 || parseInt(serverdownlink) > 65535) newErrors.downlink = 'ports must be between 1-65535'
+    if (!serveraddress || serveraddress === 'UNDEFINED') newErrors.address = 'server address can\'t be empty'
+    if (!keepaliveInterval || keepaliveInterval === 'UNDEFINED' || parseInt(keepaliveInterval) < 1 || parseInt(keepaliveInterval) > 32767) newErrors.keepalive = 'interval must be between 1-32767'
+    if (!statInterval || statInterval === 'UNDEFINED' || parseInt(statInterval) < 1 || parseInt(statInterval) > 32767) newErrors.stat = 'interval must be between 1-32767'
+    if (!pushTimeoutMs || pushTimeoutMs === 'UNDEFINED' || parseInt(pushTimeoutMs) < 1 || parseInt(pushTimeoutMs) > 32767) newErrors.pushTimeout = 'value must be between 1-32767'
+
+    return newErrors
+  }
+
+  const setField = (field, value) => {
+    if ( !!errors[field] ) setErrors({
+      ...errors,
+      [field]: null
+    })
   }
 
   return (
@@ -198,12 +228,16 @@ export function LoRaOptions(props) {
       </Row>
       <Row><Col><br /></Col></Row>
       <Form onSubmit={(event) => {
-          handleSubmit(event, props)
+          const newErrors = findConfigErrors()
+          if(Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+          }
+          handleSubmit(event, props, newErrors)
         }} >
         <Form.Row>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col} controlId="formFrequencyPlan">
+          <Form.Group as={Col} controlId="formFrequencyPlan" xs={4}>
             <Form.Label>Frequency Plan</Form.Label>
             <Form.Control as="select">
               <option>US915</option>
@@ -211,7 +245,7 @@ export function LoRaOptions(props) {
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col} controlId="formChannelCount">
+          <Form.Group as={Col} controlId="formChannelCount" xs={4}>
             <Form.Label>Channel Count</Form.Label>
             <Form.Control as="select">
               <option>8</option>
@@ -224,7 +258,7 @@ export function LoRaOptions(props) {
         <Form.Row>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} xs={4}>
             <Form.Label>Server Host</Form.Label>
             <Form.Control
               type="input"
@@ -238,17 +272,22 @@ export function LoRaOptions(props) {
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col}>
-            <Form.Label>Server Downlink Port</Form.Label>
+          <Form.Group as={Col} xs={4}>
+            <Form.Label>Keepalive Interval</Form.Label>
             <Form.Control
               type="input"
-              value={serverdownlink}
+              value={keepaliveInterval}
               onChange={(e) => {
-                setServerdownlink(e.target.value)
-                props.config.gateway_conf.serv_port_down = parseInt(e.target.value)
+                setKeepaliveInterval(e.target.value)
+                setField('keepalive', e.target.value)
+                props.config.gateway_conf.keepalive_interval = parseInt(e.target.value)
                 props.setConfig(props.config)
               }}
+              isInvalid={ !!errors.keepalive }
             ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.keepalive }
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
@@ -256,21 +295,84 @@ export function LoRaOptions(props) {
         <Form.Row>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} xs={4}>
+          <Form.Label>Server Downlink Port</Form.Label>
+          <Form.Control
+            type="input"
+            value={serverdownlink}
+            onChange={(e) => {
+              console.log(props.config.gateway_conf.serv_port_down)
+              setServerdownlink(e.target.value)
+              setField('downlink', e.target.value)
+              props.config.gateway_conf.serv_port_down = parseInt(e.target.value)
+              props.setConfig(props.config)
+            }}
+            isInvalid={ !!errors.downlink }
+          ></Form.Control>
+          <Form.Control.Feedback type='invalid'>
+            { errors.downlink }
+          </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} xs={4}>
             <Form.Label>Server Uplink Port</Form.Label>
             <Form.Control
               type="input"
               value={serveruplink}
               onChange={(e) => {
                 setServeruplink(e.target.value)
+                setField('uplink', e.target.value)
                 props.config.gateway_conf.serv_port_up = parseInt(e.target.value)
                 props.setConfig(props.config)
               }}
+              isInvalid={ !!errors.uplink }
             ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.uplink }
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={4}>
+          <Form.Label>Stat Interval</Form.Label>
+          <Form.Control
+            type="input"
+            value={statInterval}
+            onChange={(e) => {
+              setStatInterval(e.target.value)
+              setField('stat', e.target.value)
+              props.config.gateway_conf.stat_interval = parseInt(e.target.value)
+              props.setConfig(props.config)
+            }}
+            isInvalid={ !!errors.stat }
+          ></Form.Control>
+          <Form.Control.Feedback type='invalid'>
+            { errors.stat }
+          </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={4}>
+            <Form.Label>Push Timeout (ms)</Form.Label>
+            <Form.Control
+              type="input"
+              value={pushTimeoutMs}
+              onChange={(e) => {
+                setPushTimeoutMs(e.target.value)
+                setField('pushTimeout', e.target.value)
+                props.config.gateway_conf.push_timeout_ms = parseInt(e.target.value)
+                props.setConfig(props.config)
+              }}
+              isInvalid={ !!errors.pushTimeout }
+            ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.pushTimeout }
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
@@ -280,7 +382,7 @@ export function LoRaOptions(props) {
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
-          <Form.Group as={Col}>
+          <Form.Group as={Col} xs={4}>
             <Button type="submit" variant="signetik">Save</Button>
           </Form.Group>
           <Form.Group as={Col}>

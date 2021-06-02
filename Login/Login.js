@@ -36,6 +36,7 @@ export default function Login(props) {
         console.log(data)
         if (data.login === "success") {
           props.setToken(data.token)
+          validtoken = true
         }
         else {
           throw new Error("Invalid login")
@@ -70,12 +71,15 @@ export default function Login(props) {
     })
   }
 
-  if (props.token.length > 0 && validtoken === false) {
+  if (props.token.length === 0) {
+    validtoken = false
+  }
+  else if (props.token.length > 0 && validtoken === false) {
     validateToken(props.token).then( () => {
       validtoken = true
     }).catch( () => {
       console.log("No rediret")
-      props.setToken("");
+      props.setToken("")
      });
   }
   else {
