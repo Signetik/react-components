@@ -406,11 +406,13 @@ export function LoRaOptions(props) {
 export function PatchOptions(props) {
   const [selectedFile, setSelectedFile] = useState()
 	const [isFilePicked, setIsFilePicked] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState('')
   const [error, setError] = useState()
 
   const fileChangeHandler = (event) => {
 		setSelectedFile(event.target.files[0])
 		setIsFilePicked(true)
+    setUploadStatus("")
 	};
 
   const handleFileSubmission = e => {
@@ -419,6 +421,8 @@ export function PatchOptions(props) {
 
 		formData.append('gatewayfile', selectedFile)
     setError("")
+    setIsFilePicked(false)
+    setUploadStatus("Uploading... " + selectedFile.name)
 
     const requestOptions = {
       method: 'POST',
@@ -427,16 +431,40 @@ export function PatchOptions(props) {
     fetch(`${baseurl}/api/upload?token=${props.token}`, requestOptions)
 			.then((response) => response.json())
 			.then((result) => {
-				console.log('Success:', result)
+        if (result.error === "false") {
+  				console.log('Success:', result)
+          setUploadStatus("Installing firmware: " + selectedFile.name)
+          const requestGetOptions = {
+            method: 'GET'
+          }
+          fetch(`${baseurl}/api/upload?token=${props.token}`, requestGetOptions)
+            .then((response) => response.json())
+            .then((result) => {
+              console.log('Success:', result)
+              if (result.error === "outdated") {
+                setUploadStatus("Newer/Current version exists: " + result.version)
+              } else if (result.error === "false") {
+                setUploadStatus("Installed firmware: " + selectedFile.name)
+                const requestGetOptions = {
+                  method: 'GET'
+                };
+              } else {
+                throw new Error("Something went wrong")
+              }
+            })
+        }
+        else if (result.error === "FILE_MISSING") {
+          throw new Error("FILE_MISSING")
+        }
+        else {
+          throw new Error("")
+        }
 			})
 			.catch((error) => {
         const { code } = error?.response?.data
         switch (code) {
           case "FILE_MISSING":
             setError("Please select a file before uploading!")
-            break
-            case "INVALID_TYPE":
-            setError("This file type is not supported! Only .tar.gz files are allowed")
             break
           default:
             setError("Sorry! Something went wrong. Please try again later")
@@ -487,7 +515,7 @@ export function PatchOptions(props) {
               </Form.Label>
             </div>
           ) : (
-            <Form.Label></Form.Label>
+            <Form.Label>{uploadStatus}</Form.Label>
           )}
           </Form.Group>
           <Form.Group as={Col}>
