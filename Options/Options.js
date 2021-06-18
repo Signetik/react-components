@@ -1,11 +1,12 @@
 import { Col, Container, Nav, Row } from "react-bootstrap"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
+import Alert from "react-bootstrap/Alert"
 import { Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 
 //const baseurl = "http://10.10.10.4:8882"
-const baseurl = ""
+const baseurl = "http://signetikgw.local"
 
 function Menu() {
   return (
@@ -493,7 +494,7 @@ export function PatchOptions(props) {
             <Form.File
               id="patch-file"
               label="Select patch file"
-              accept=".jpg, .png, .txz"
+              accept=".txz"
               custom
               onChange={fileChangeHandler} />
           </Form.Group>
@@ -507,12 +508,8 @@ export function PatchOptions(props) {
           {isFilePicked ? (
             <div>
               <Form.Label>Filename: {selectedFile.name}</Form.Label>
-              <Form.Label>Filetype: {selectedFile.type}</Form.Label>
+              <br/>
               <Form.Label>Size in bytes: {selectedFile.size}</Form.Label>
-              <Form.Label>
-                lastModifiedDate:{' '}
-                {selectedFile.lastModifiedDate.toLocaleDateString()}
-              </Form.Label>
             </div>
           ) : (
             <Form.Label>{uploadStatus}</Form.Label>
