@@ -9,6 +9,15 @@
     }
 }
 
+.table-signetik {
+  width: 50%;
+  margin-left: 25%;
+}
+
+.table-signetik > thead {
+  background-color: var(--main-color-dim50);
+}
+
 .alert-shown {
     visibility: visible;
     opacity: 1;

@@ -2,6 +2,7 @@ import { Col, Container, Nav, Row } from "react-bootstrap"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Alert from "react-bootstrap/Alert"
+import Table from 'react-bootstrap/Table'
 import { Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 
@@ -19,7 +20,13 @@ function Menu() {
           <Nav.Link as={Link} to="/lora" className="nav-link-signetik" variant="signetik">LoRa</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to="/patch" className="nav-link-signetik" variant="signetik">Patch Gateway</Nav.Link>
+          <Nav.Link as={Link} to="/network" className="nav-link-signetik" variant="signetik">Network Settings</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={Link} to="/patch" className="nav-link-signetik" variant="signetik">Update Gateway</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link as={Link} to="/keys" className="nav-link-signetik" variant="signetik">SSH Keys</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link as={Link} to="/admin" className="nav-link-signetik" variant="signetik">Admin</Nav.Link>
@@ -49,16 +56,66 @@ function handleSubmit(event, props, newErrors) {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      if (data.login === "success") {
-        props.setToken(data.token)
-      }
-      else {
-        throw new Error("Invalid login")
+      if (data.error === "true") {
+        throw new Error("Not logged in")
       }
     }).catch((error) => {
-    //setAlert('Failed to login, ' + error.toString())
-    //setAlertVisible(true)
+      console.log(error)
   });
+}
+
+function handleStatusSubmission (e, props, newErrors) {
+  e.preventDefault();
+
+  if(Object.keys(newErrors).length > 0) {
+    return
+  }
+
+  const post_data = {"data": JSON.stringify(props.status) }
+  const body = post_data
+
+  console.log(post_data)
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    body: JSON.stringify(body)
+  };
+  fetch(`${baseurl}/api/status?token=${props.token}`, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      if (data.error === "true") {
+        throw new Error("Not logged in")
+      }
+    }).catch((error) => {
+      console.log(error)
+  });
+}
+
+function getStatus(token) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  };
+  console.log("getStatus")
+
+  return new Promise((resolve, reject) => {
+    fetch(`${baseurl}/api/status?token=${token}`, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+
+        if (data.error) {
+          reject("Invalid Response")
+        }
+        else {
+          //var json = JSON.parse(data.toString().replace(/\r?\n|\r/g, ''))
+          //console.log(json)
+          resolve(data)
+        }
+      });
+  })
 }
 
 function getConfig(token) {
@@ -108,6 +165,15 @@ export function ConfigLoader(props) {
                 props.setConfig(result)
                 console.log(result)
                 //setConfig(data)
+                console.log("Requesting status [" + newToken + "]")
+                getStatus(newToken)
+                  .then((result) => {
+                    props.setStatus(result)
+                    console.log(result)
+                  })
+                  .catch((error) => {
+                    console.log(error)
+                  })
               }
             })
             .catch((error) => {
@@ -135,7 +201,7 @@ export function ConfigLoader(props) {
 }
 
 export function GeneralOptions(props) {
-  if (!props.config.gateway_conf) {
+  if (!props.status) {
     return (<div>Loading...</div>)
   }
   return (
@@ -145,59 +211,52 @@ export function GeneralOptions(props) {
           <Menu />
         </Col>
       </Row>
-      <Row><Col><br /></Col></Row>
-      <Form>
-        <Form.Row>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col} controlId="formFrequencyPlan">
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col} controlId="formChannelCount">
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-            <Button variant="signetik">Save</Button>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-        </Form.Row>
-      </Form>
+      <Row><Col><br /><br /></Col></Row>
+      <Table striped bordered hover variant="signetik">
+        <thead>
+          <tr>
+            <th variant="signetik">Property</th>
+            <th variant="signetik">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Device Serial Number</td>
+            <td>{props.status.device_serial}</td>
+          </tr>
+          <tr>
+            <td>Cellular Serial Number</td>
+            <td>{props.status.cellular_serial}</td>
+          </tr>
+          <tr>
+            <td>EUI</td>
+            <td>TBA</td>
+          </tr>
+          <tr>
+            <td>IMEI</td>
+            <td>TBA</td>
+          </tr>
+          <tr>
+            <td>Firmware Version</td>
+            <td>{props.status.firmware_version}</td>
+          </tr>
+        </tbody>
+      </Table>
     </Container>
   )
 }
 
 export function LoRaOptions(props) {
-  console.log(props.config.gateway_conf)
+  console.log(props.config)
 
+  const [channelCount, setChannelCount] = useState(props.config.SX130x_conf ? props.config.SX130x_conf.radio_1.enable : "true")
   const [serveruplink, setServeruplink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_up : "UNDEFINED")
   const [serverdownlink, setServerdownlink] = useState(props.config.gateway_conf ? props.config.gateway_conf.serv_port_down : "UNDEFINED")
   const [serveraddress, setServeraddress] = useState(props.config.gateway_conf ? props.config.gateway_conf.server_address : "UNDEFINED")
   const [keepaliveInterval, setKeepaliveInterval] = useState(props.config.gateway_conf ? props.config.gateway_conf.keepalive_interval : "UNDEFINED")
   const [statInterval, setStatInterval] =  useState(props.config.gateway_conf ? props.config.gateway_conf.stat_interval : "UNDEFINED")
   const [pushTimeoutMs, setPushTimeoutMs] =  useState(props.config.gateway_conf ? props.config.gateway_conf.push_timeout_ms : "UNDEFINED")
+  const [networkProtocol, setNetworkProtocol] = useState(props.config.gateway_conf ? props.config.gateway_conf.net_protocol : "0")
   const [errors, setErrors] = useState({})
 
   if (!props.config.gateway_conf) {
@@ -251,15 +310,40 @@ export function LoRaOptions(props) {
           </Form.Group>
           <Form.Group as={Col} controlId="formChannelCount" xs={4}>
             <Form.Label>Channel Count</Form.Label>
-            <Form.Control as="select">
-              <option>8</option>
-              <option>4</option>
+            <Form.Control
+              as="select"
+              defaultValue={channelCount}
+              onChange={(e) => {
+                setChannelCount(e.target.value)
+                props.config.SX130x_conf.radio_1.enable = (e.target.value === "true")
+                props.setConfig(props.config)
+              }}
+              >
+              <option value="true">8</option>
+              <option value="false">4</option>
             </Form.Control>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
         </Form.Row>
         <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} controlId="formNetworkProtocol" xs={4}>
+            <Form.Label>Network Interface</Form.Label>
+            <Form.Control
+              as="select"
+              defaultValue={networkProtocol}
+              onChange={(e) => {
+                setNetworkProtocol(e.target.value)
+                props.config.gateway_conf.net_protocol = parseInt(e.target.value)
+                props.setConfig(props.config)
+              }}
+              >
+              <option value="0">Ethernet</option>
+              <option value="1">Cellular</option>
+            </Form.Control>
+          </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
           <Form.Group as={Col} xs={4}>
@@ -277,25 +361,6 @@ export function LoRaOptions(props) {
             ></Form.Control>
             <Form.Control.Feedback type='invalid'>
               { errors.address }
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col}>
-          </Form.Group>
-          <Form.Group as={Col} xs={4}>
-            <Form.Label>Keepalive Interval</Form.Label>
-            <Form.Control
-              type="input"
-              value={(keepaliveInterval === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.keepalive_interval : keepaliveInterval}
-              onChange={(e) => {
-                setKeepaliveInterval(e.target.value)
-                setField('keepalive', e.target.value)
-                props.config.gateway_conf.keepalive_interval = parseInt(e.target.value)
-                props.setConfig(props.config)
-              }}
-              isInvalid={ !!errors.keepalive }
-            ></Form.Control>
-            <Form.Control.Feedback type='invalid'>
-              { errors.keepalive }
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group as={Col}>
@@ -389,6 +454,33 @@ export function LoRaOptions(props) {
         <Form.Row>
           <Form.Group as={Col}>
           </Form.Group>
+          <Form.Group as={Col} xs={4}>
+            <Form.Label>Keepalive Interval</Form.Label>
+            <Form.Control
+              type="input"
+              value={(keepaliveInterval === 'UNDEFINED' && props.config.gateway_conf) ? props.config.gateway_conf.keepalive_interval : keepaliveInterval}
+              onChange={(e) => {
+                setKeepaliveInterval(e.target.value)
+                setField('keepalive', e.target.value)
+                props.config.gateway_conf.keepalive_interval = parseInt(e.target.value)
+                props.setConfig(props.config)
+              }}
+              isInvalid={ !!errors.keepalive }
+            ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.keepalive }
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={4}>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
           <Form.Group as={Col} xs={4}>
@@ -446,9 +538,6 @@ export function PatchOptions(props) {
                 setUploadStatus("Newer/Current version exists: " + result.version)
               } else if (result.error === "false") {
                 setUploadStatus("Installed firmware: " + selectedFile.name)
-                const requestGetOptions = {
-                  method: 'GET'
-                };
               } else {
                 throw new Error("Something went wrong")
               }
@@ -493,7 +582,7 @@ export function PatchOptions(props) {
           <Form.Group as={Col} xs={9}>
             <Form.File
               id="patch-file"
-              label="Select patch file"
+              label="Select update file"
               accept=".txz"
               custom
               onChange={fileChangeHandler} />
@@ -531,6 +620,303 @@ export function PatchOptions(props) {
       </Form>
     </Container>
 	)
+}
+
+export function SshOptions(props) {
+  const [error, setError] = useState()
+  const [fileContent, setFileContent] = useState()
+  const [uploadStatus, setUploadStatus] = useState('')
+
+  if (!props.config.gateway_conf) {
+    return (<div>Loading...</div>)
+  }
+
+  console.log(fileContent)
+
+  let fileReader;
+
+  const handleFileRead = (e) => {
+    const content = fileReader.result;
+    setFileContent(content)
+  };
+
+  const handleFileChosen = (file) => {
+    setUploadStatus("")
+    fileReader = new FileReader();
+    fileReader.onloadend = handleFileRead;
+    fileReader.readAsText(file);
+  };
+
+  const handleFileDeletion = e => {
+    e.preventDefault() //prevent the form from submitting
+
+    const requestGetOptions = {
+      method: 'GET'
+    }
+    fetch(`${baseurl}/api/keys?token=${props.token}`, requestGetOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('Success:', result)
+        if (result.error === "false") {
+          setUploadStatus("Key Deleted")
+        } else {
+          throw new Error("Something went wrong")
+        }
+      })
+  }
+
+  const handleFileSubmission = e => {
+    e.preventDefault() //prevent the form from submitting
+    const formData = new FormData();
+
+    const blob = new Blob([fileContent], {type: "text/plain"});
+    formData.append('sshfile', blob)
+    setError("")
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData
+    };
+    fetch(`${baseurl}/api/keys?token=${props.token}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.error === "false") {
+          console.log('Success:', result)
+          setUploadStatus("Uploaded")
+        }
+        else if (result.error === "true") {
+          throw new Error("No content")
+        }
+        else {
+          throw new Error("")
+        }
+      })
+      .catch((error) => {
+        const { code } = error?.response?.data
+        switch (code) {
+          case "No content":
+            setError("Please select a file or enter content before uploading!")
+            break
+          default:
+            setError("Sorry! Something went wrong. Please try again later")
+            break
+        }
+      })
+  }
+
+  return(
+    <Container fluid="true" >
+      <Row fluid="true">
+        <Col>
+          <Menu />
+        </Col>
+      </Row>
+      <Row><Col><br /></Col></Row>
+      <Form>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={9}>
+            <Form.Control as="textarea" rows={8}
+              placeholder="Paste content here or choose a file below"
+              value={fileContent}
+              onChange={(e) => {
+                setUploadStatus("")
+                setFileContent(e.target.value)
+              }}/>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={9}>
+            <Form.File
+              id='file'
+              label="Choose file"
+              accept='.txt, .pub'
+              custom
+              onChange={e => handleFileChosen(e.target.files[0])} />
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={9}>
+            <Form.Label>{uploadStatus}</Form.Label>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Button type="submit"  variant="signetik" disabled={!fileContent || fileContent === ''} onClick={handleFileSubmission}>Add Key</Button>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Button type="submit"  variant="signetik" onClick={handleFileDeletion}>Delete Key</Button>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        {error && <Alert variant="danger">{error}</Alert>}
+      </Form>
+    </Container>
+	)
+}
+
+export function NetworkOptions(props) {
+  console.log(props.status)
+
+  const [dhcpEnabled, setDhcpEnabled] = useState(!props.status ? "true" : (props.status.dhcp_enabled === true) ? "true" : "false")
+  const [ipAddress, setIpAddress] = useState(props.status ? props.status.ip_address : "UNDEFINED")
+  const [networkMask, setNetworkMask] = useState(props.status ? props.status.netmask : "UNDEFINED")
+  const [errors, setErrors] = useState({})
+
+  if (!props.status) {
+    return (<div>Loading...</div>)
+  }
+
+  const validateIPaddress = (inputText) => {
+    if (inputText === "UNDEFINED") {
+      return false;
+    }
+    var ipformat = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    if(inputText.match(ipformat))
+    {
+      console.log("VALID")
+      return true;
+    }
+    else
+    {
+      console.log("INVALID")
+      return false;
+    }
+  }
+
+  const findConfigErrors = () => {
+    const newErrors = {}
+
+    console.log(ipAddress)
+    console.log(networkMask)
+
+    if (!ipAddress || ipAddress === 'UNDEFINED' || validateIPaddress(ipAddress)  === false) newErrors.ip = 'Invalid ip-address entered'
+    if (!networkMask || networkMask === 'UNDEFINED' || validateIPaddress(networkMask) === false) newErrors.mask = 'Invalid Subnet Mask Entered'
+
+    return newErrors
+  }
+
+  const setField = (field, value) => {
+    if ( !!errors[field] ) setErrors({
+      ...errors,
+      [field]: null
+    })
+  }
+
+  return (
+    <Container fluid="true" >
+      <Row fluid="true">
+        <Col>
+          <Menu />
+        </Col>
+      </Row>
+      <Row><Col><br /></Col></Row>
+      <Form onSubmit={(event) => {
+          const newErrors = findConfigErrors()
+          if(Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+          }
+          handleStatusSubmission(event, props, newErrors)
+        }} >
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={6}>
+            <Form.Label>Enable DHCP</Form.Label>
+            <Form.Control
+              as="select"
+              defaultValue={dhcpEnabled}
+              onChange={(e) => {
+                setDhcpEnabled(e.target.value)
+                props.status.dhcp_enabled = (e.target.value === "true")
+                props.setStatus(props.status)
+              }}
+              >
+              <option value="true">TRUE</option>
+              <option value="false">FALSE</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={6}>
+            <Form.Label>IP Address</Form.Label>
+            <Form.Control
+              type="input"
+              value={ipAddress}
+              disabled={dhcpEnabled === "true"}
+              onChange={(e) => {
+                setIpAddress(e.target.value)
+                setField('ip', e.target.value)
+                props.status.ip_address = e.target.value
+                props.setStatus(props.status)
+              }}
+              isInvalid={ !!errors.ip }
+            ></Form.Control>
+            <Form.Control.Feedback type='invalid'>
+              { errors.ip }
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={6}>
+          <Form.Label>Subnet Mask</Form.Label>
+          <Form.Control
+            type="input"
+            value={networkMask}
+            disabled={dhcpEnabled === 'true'}
+            onChange={(e) => {
+              console.log(props.config.gateway_conf.serv_port_down)
+              setNetworkMask(e.target.value)
+              setField('mask', e.target.value)
+              props.status.netmask = e.target.value
+              props.setStatus(props.status)
+            }}
+            isInvalid={ !!errors.mask }
+          ></Form.Control>
+          <Form.Control.Feedback type='invalid'>
+            { errors.mask }
+          </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col} xs={6}>
+            <Button type="submit" disabled={dhcpEnabled === "true"} variant="signetik">Save</Button>
+          </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+        </Form.Row>
+      </Form>
+    </Container>
+  )
 }
 
 function Admin(props) {
