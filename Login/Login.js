@@ -8,8 +8,8 @@ import { Redirect } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.css";
 import "./Login.css";
 
-//const baseurl = "http://10.10.10.4:8882"
-const baseurl = "http://signetikgw.local"
+const baseurl = ""
+//const baseurl = "http://10.10.10.9"
 let validtoken = false
 
 export default function Login(props) {

@@ -6,8 +6,8 @@ import Table from 'react-bootstrap/Table'
 import { Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 
-//const baseurl = "http://10.10.10.4:8882"
-const baseurl = "http://signetikgw.local"
+const baseurl = ""
+//const baseurl = "http://10.10.10.9"
 
 function Menu() {
   return (
@@ -890,7 +890,6 @@ export function NetworkOptions(props) {
             value={networkMask}
             disabled={dhcpEnabled === 'true'}
             onChange={(e) => {
-              console.log(props.config.gateway_conf.serv_port_down)
               setNetworkMask(e.target.value)
               setField('mask', e.target.value)
               props.status.netmask = e.target.value
