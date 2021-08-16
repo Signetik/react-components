@@ -257,6 +257,7 @@ export function LoRaOptions(props) {
   const [statInterval, setStatInterval] =  useState(props.config.gateway_conf ? props.config.gateway_conf.stat_interval : "UNDEFINED")
   const [pushTimeoutMs, setPushTimeoutMs] =  useState(props.config.gateway_conf ? props.config.gateway_conf.push_timeout_ms : "UNDEFINED")
   const [networkProtocol, setNetworkProtocol] = useState(props.config.gateway_conf ? props.config.gateway_conf.net_protocol : "0")
+  const [loraFrequency, setLoraFrequency] = useState(props.config.SX130x_conf ? props.config.SX130x_conf.radio_0.freq: "904300000")
   const [errors, setErrors] = useState({})
 
   if (!props.config.gateway_conf) {
@@ -301,10 +302,99 @@ export function LoRaOptions(props) {
           <Form.Group as={Col}>
           </Form.Group>
           <Form.Group as={Col} controlId="formFrequencyPlan" xs={4}>
-            <Form.Label>Frequency Plan</Form.Label>
-            <Form.Control as="select">
-              <option>US915</option>
-            </Form.Control>
+            <Form.Row>
+            <Form.Group as={Col}>
+              <Form.Label>Frequency Plan</Form.Label>
+              <Form.Control as="select">
+                <option>US915</option>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group as={Col}>
+              <Form.Label>Channels</Form.Label>
+              <Form.Control
+                as="select"
+                defaultValue={loraFrequency}
+                onChange={(e) => {
+                  setLoraFrequency(e.target.value)
+                  props.config.SX130x_conf.radio_0.freq = parseInt(e.target.value)
+                  props.setConfig(props.config)
+                }}
+                >
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="902700000">0-3 : 902.3-902.9</option>
+                ) : (
+                  <option value="902700000">0-7 : 902.3-903.7</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="903500000">4-7 : 903.1-903.7</option>
+                ) : (
+                  <option value="904300000">8-15: 903.9-905.3</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="904300000">8-11 : 903.9-904.5</option>
+                ) : (
+                  <option value="905900000">16-23: 905.5-906.9</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="905100000">12-15 : 904.7-905.3</option>
+                ) : (
+                  <option value="907500000">24-31: 907.1-908.5</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="905900000">16-19 : 905.5-906.1</option>
+                ) : (
+                  <option value="909100000">32-39: 908.7-910.1</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="906700000">20-23 : 906.3-906.9</option>
+                ) : (
+                  <option value="910700000">40-47: 910.3-911.7</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="907500000">24-27 : 907.1-907.7</option>
+                ) : (
+                  <option value="912300000">48-55: 911.9-913.3</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="908300000">28-31 : 907.9-908.5</option>
+                ) : (
+                  <option value="913900000">56-63: 913.5-914.9</option>
+                )}
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="909100000">32-35 : 908.7-909.3</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="909900000">36-39 : 909.5-910.1</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="910700000">40-43 : 910.3-910.9</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="911500000">44-47 : 911.1-911.7</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="912300000">48-51 : 911.9-912.5</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="913100000">52-55 : 912.7-913.3</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="913900000">56-59 : 913.5-914.1</option>
+                ) : null
+                }
+                {props.config.SX130x_conf.radio_1.enable === false ? (
+                  <option value="914700000">60-63 : 914.3-914.9</option>
+                ) : null
+                }
+              </Form.Control>
+            </Form.Group>
+            </Form.Row>
           </Form.Group>
           <Form.Group as={Col}>
           </Form.Group>
