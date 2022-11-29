@@ -78,13 +78,13 @@ export default function Login(props) {
     validateToken(props.token).then( () => {
       validtoken = true
     }).catch( () => {
-      console.log("No rediret")
+      console.log("No redirect")
       props.setToken("")
      });
   }
   else {
-    console.log("redirect to general")
-    return (<Redirect to='/general' />)
+    console.log("redirect to " + props.redirect)
+    return (<Redirect to={props.redirect} />)
   }
 
 
