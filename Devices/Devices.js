@@ -191,9 +191,14 @@ export function FirmwaresLoader(props) {
           getFirmwares(newToken, props.startFirmware, props.endFirmware)
             .then((result) => {
               if (mounted.current) {
-                props.setFirmwares(result.filter(firmware => firmware.target == 'b1').sort((a,b) => { if (a.version > b.version) return -1; else return 1} ));
-                //props.setFirmwares(result)
-                console.log(result)
+
+                // Sort by version number
+                var b1_firmwares = result.filter(firmware => firmware.target == 'b1');
+                b1_firmwares = b1_firmwares.map( a => { a.version = a.version.replace(/\d+/g, n => +n+100000); return a;}  )
+                  .sort((a,b) => { if (a.version > b.version) return -1; else return 1})
+                  .map( a => { a.version = a.version.replace(/\d+/g, n => +n-100000); return a;}  )
+
+                props.setFirmwares(b1_firmwares);
               }
             })
             .catch((error) => {
