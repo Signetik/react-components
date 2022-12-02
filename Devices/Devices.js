@@ -116,6 +116,7 @@ function putFirmware(token, deviceId, firmwareId) {
 export function DevicesLoader(props) {
   const mounted = React.useRef(false)
   const history = useHistory()
+  var ws = null;
 
   function performGetDevices(props, token) {
     console.log("Requesting devices [" + token + "] " + props.startDevice + " -> " + props.endDevice)
@@ -123,7 +124,7 @@ export function DevicesLoader(props) {
       .then((result) => {
         if (mounted.current) {
           props.setDevices(result)
-          console.log(result)
+          //console.log(result)
         }
       })
       .catch((error) => {
@@ -137,8 +138,10 @@ export function DevicesLoader(props) {
   }
 
   useEffect(() => {
-    mounted.current = true
-    console.log("loading token")
+    console.log('useEffect')
+
+   mounted.current = true
+  console.log("loading token")
     var newToken = localStorage.getItem("token")
     try {
       if (!newToken) {
@@ -151,11 +154,26 @@ export function DevicesLoader(props) {
           performGetDevices(props, newToken);
         }
 
-        const interval=setInterval(()=>{
-          performGetDevices(props, newToken);
-         },5000)
+        //const interval=setInterval(()=>{
+        //  performGetDevices(props, newToken);
+        // },5000)
+        //const interval=setInterval(()=>{
+          //ws.send("Testing");
+        //},5000)
 
-         return()=>clearInterval(interval)
+        if (!ws) {
+          ws = new WebSocket("ws://" + baseuri + "/ws");
+
+          ws.onopen = function() {
+            //ws.send("Hello, world");
+          };
+          ws.onmessage = function (evt) {
+            console.log(evt.data);
+            performGetDevices(props, newToken);
+          };
+        }
+
+        //return()=>clearInterval(interval)
       }
     }
     catch (error) {
@@ -166,7 +184,7 @@ export function DevicesLoader(props) {
     return function cleanup() {
       mounted.current = false
     }
-  }, [props, history])
+  }, [history])
 
   return (<div></div>)
 }
