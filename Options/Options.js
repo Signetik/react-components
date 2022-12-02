@@ -6,8 +6,7 @@ import Table from 'react-bootstrap/Table'
 import { Link, useHistory } from "react-router-dom"
 import React, { useEffect, useState } from "react"
 
-const baseurl = ""
-//const baseurl = "http://10.10.10.9"
+const baseurl = (process.env.NODE_ENV == 'development') ? "http://fota19.aws.signetik.com" : ""
 
 function Menu() {
   return (
