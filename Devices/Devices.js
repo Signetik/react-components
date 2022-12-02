@@ -162,7 +162,7 @@ export function DevicesLoader(props) {
         //},5000)
 
         if (!ws) {
-          ws = new WebSocket("ws://" + baseuri + "/ws");
+          ws = new WebSocket("ws://" + window.location.host + "/ws");
 
           ws.onopen = function() {
             //ws.send("Hello, world");
