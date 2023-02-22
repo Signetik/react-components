@@ -11,13 +11,23 @@ function MoreLessIcon(props) {
     return <ExpandMoreIcon className="noselect" />;
 }
 
+function BulkActionItem(props) {
+  if (props.enabled) {
+    return <p  data-disabled="false" onClick={props.action}>{props.text}</p>
+  }
+  else {
+    return <p  data-disabled="true">{props.text}</p>
+  }
+}
+
 function BulkActionsContent(props) {
+  var devicesAvailable = props.devicesSelected > 0;
 
   if (props.expand) {
-    if (props.devicesSelected > 0)
-      return <div className="dropdown-content noselect"><p  data-disabled="false" onClick={props.assignFirmware}>Assign firmware</p></div>
-    else
-    return <div className="dropdown-content noselect"><p data-disabled="true">Assign firmware</p></div>
+    return <div className="dropdown-content noselect">
+        <BulkActionItem enabled={(props.devicesSelected > 0) ? true : false} text="Assign 9160 firmware" action={() => props.action('assign-m1')} />
+        <BulkActionItem enabled={(props.devicesSelected > 0) ? true : false} text="Assign 52xx firmware" action={() => props.action('assign-b1')} />
+      </div>
   }
   else
     return <div />
@@ -38,7 +48,7 @@ export function SortFilter(props) {
           <div className="dropdown devices-bulk-actions-btn" onClick={() => { bulkActionsShowClick(); }}>
             <span>Actions</span>
             <MoreLessIcon less={bulkActionsDropShow} />
-            <BulkActionsContent expand={bulkActionsDropShow} devicesSelected={props.devicesSelected} assignFirmware={props.assignFirmware}/>
+            <BulkActionsContent expand={bulkActionsDropShow} devicesSelected={props.devicesSelected} action={props.action}/>
           </div>
           <div className="search-devices">
             <label>Search</label>

@@ -214,12 +214,11 @@ export function FirmwaresLoader(props) {
               if (mounted.current) {
 
                 // Sort by version number
-                var b1_firmwares = result.filter(firmware => firmware.target === 'b1');
-                b1_firmwares = b1_firmwares.map( a => { a.version = a.version.replace(/\d+/g, n => +n+100000); return a;}  )
+                var firmwares = result.map( a => { a.version = a.version.replace(/\d+/g, n => +n+100000); return a;}  )
                   .sort((a,b) => { if (a.version > b.version) return -1; else return 1})
                   .map( a => { a.version = a.version.replace(/\d+/g, n => +n-100000); return a;}  )
 
-                props.setFirmwares(b1_firmwares);
+                props.setFirmwares(firmwares);
               }
             })
             .catch((error) => {
@@ -350,6 +349,7 @@ export function Devices(props) {
   const [open, setOpen] = React.useState(false);
   const [devicesSelected, setDevicesSelected] = React.useState(0);
   const [selectedValue, setSelectedValue] = React.useState("");
+  const [matchFirmwares, setMatchFirmwares] = React.useState([]);
 
   if (!props.devices) {
     return (<div>Loading...</div>)
@@ -373,12 +373,18 @@ export function Devices(props) {
     setDevicesSelected(props.devices.filter(device => device.checked));
   }
 
-  const assignFirmware = () => {
-    console.log('do assignFirmware');
+  const deviceAction = (evt) => {
+    console.log('do action: ' + evt);
 
-    var update_devices = props.devices.filter((device) => device.checked);
-
-    handleClickOpen();
+    if (evt == "assign-m1") {
+      console.log(props.firmwares);
+      setMatchFirmwares(props.firmwares.filter(firmware => firmware.target == "m1"));
+      handleClickOpen();
+    }
+    if (evt == "assign-b1") {
+      setMatchFirmwares(props.firmwares.filter(firmware => firmware.target == "b1"));
+      handleClickOpen();
+    }
   }
 
   const handleCBChange = (event: React.ChangeEvent<HTMLInputElement>, imei) => {
@@ -398,14 +404,14 @@ export function Devices(props) {
           <Menu />
         </Col>
       </Row>
-      <SortFilter setPage={props.setPage} devicesSelected={devicesSelected.length} assignFirmware={assignFirmware} currentPage={props.currentPage} count={props.count} stride={props.stride} />
+      <SortFilter setPage={props.setPage} devicesSelected={devicesSelected.length} action={deviceAction} currentPage={props.currentPage} count={props.count} stride={props.stride} />
       <FirmwareDialog
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
         devices={props.devices}
         devicesSelected={devicesSelected}
-        firmwares={props.firmwares}
+        firmwares={matchFirmwares}
       />
       <Table striped bordered hover variant="signetik" className="devices-list">
         <thead>
