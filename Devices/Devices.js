@@ -406,7 +406,7 @@ export function Devices(props) {
           <Menu />
         </Col>
       </Row>
-      <SortFilter devicesSelected={devicesSelected.length} assignFirmware={assignFirmware}/>
+      <SortFilter setPage={props.setPage} devicesSelected={devicesSelected.length} assignFirmware={assignFirmware} currentPage={props.currentPage} count={props.count} stride={props.stride} />
       <FirmwareDialog
         selectedValue={selectedValue}
         open={open}
