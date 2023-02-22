@@ -116,14 +116,18 @@ function putFirmware(token, deviceId, firmwareId) {
 export function DevicesLoader(props) {
   const mounted = React.useRef(false)
   const history = useHistory()
-  var ws = null;
+  const ws = React.useRef(null);
+  const [deviceTimer, setDeviceTimer] = useState(null);
+  const [startDevice, setStartDevice] = useState(-1);
+  const [endDevice, setEndDevice] = useState(-1);
 
-  function performGetDevices(props, token) {
+  const performGetDevices = React.useCallback((props, token) => {
     console.log("Requesting devices [" + token + "] " + props.startDevice + " -> " + props.endDevice)
     getDevices(token, props.startDevice, props.endDevice)
       .then((result) => {
         if (mounted.current) {
-          props.setDevices(result)
+          props.setDeviceCount(result.count)
+          props.setDevices(result.devices)
           //console.log(result)
         }
       })
@@ -135,7 +139,7 @@ export function DevicesLoader(props) {
         //setAlert('Failed to receive configuration, ' + error.toString())
         //setAlertVisible(true)
       })
-  }
+  }, [history]);
 
   useEffect(() => {
     console.log('useEffect')
@@ -150,8 +154,10 @@ export function DevicesLoader(props) {
       if (mounted.current) {
         props.setToken(newToken)
 
-        if (!props.devices) {
+        if (!props.devices || (startDevice != props.startDevice) || (endDevice != props.endDevice)) {
           performGetDevices(props, newToken);
+          setStartDevice(props.startDevice);
+          setEndDevice(props.endDevice);
         }
 
         //const interval=setInterval(()=>{
