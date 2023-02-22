@@ -160,13 +160,6 @@ export function DevicesLoader(props) {
           setEndDevice(props.endDevice);
         }
 
-        //const interval=setInterval(()=>{
-        //  performGetDevices(props, newToken);
-        // },5000)
-        //const interval=setInterval(()=>{
-          //ws.send("Testing");
-        //},5000)
-
         if (!ws.current) {
           ws.current = new WebSocket("ws://" + baseuri + "/ws");
 
@@ -184,8 +177,6 @@ export function DevicesLoader(props) {
             }
           };
         }
-
-        //return()=>clearInterval(interval)
       }
     }
     catch (error) {
@@ -236,8 +227,6 @@ export function FirmwaresLoader(props) {
               console.log("redirecting to /login")
               props.setToken("")
               history.push("/login")
-              //setAlert('Failed to receive configuration, ' + error.toString())
-              //setAlertVisible(true)
             })
         }
       }
@@ -381,7 +370,6 @@ export function Devices(props) {
   };
 
   const countSelectedDevices = () => {
-
     setDevicesSelected(props.devices.filter(device => device.checked));
   }
 
@@ -389,8 +377,6 @@ export function Devices(props) {
     console.log('do assignFirmware');
 
     var update_devices = props.devices.filter((device) => device.checked);
-
-    update_devices.map((device) => {console.log(device.imei)});
 
     handleClickOpen();
   }
