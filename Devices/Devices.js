@@ -217,7 +217,7 @@ export function FirmwaresLoader(props) {
               if (mounted.current) {
 
                 // Sort by version number
-                var b1_firmwares = result.filter(firmware => firmware.target == 'b1');
+                var b1_firmwares = result.filter(firmware => firmware.target === 'b1');
                 b1_firmwares = b1_firmwares.map( a => { a.version = a.version.replace(/\d+/g, n => +n+100000); return a;}  )
                   .sort((a,b) => { if (a.version > b.version) return -1; else return 1})
                   .map( a => { a.version = a.version.replace(/\d+/g, n => +n-100000); return a;}  )
@@ -258,7 +258,7 @@ function firmwaresUpdate(devices, firmware) {
     }
 
     console.log('for each device');
-    devices.map((device) => {
+    devices.forEach((device) => {
       console.log(device.imei);
       putFirmware(newToken, device._id, firmware._id);
     } )
@@ -344,7 +344,7 @@ function selectDevice(e) {
 function Progress(props) {
   if (props.total > 0) {
     var percent = Math.round(props.current * 100 / props.total);
-    return <div>{percent}%</div>
+    return <div title={props.file}>{percent}%</div>
   }
   else
     return <div />
@@ -391,7 +391,7 @@ export function Devices(props) {
 
   const handleCBChange = (event: React.ChangeEvent<HTMLInputElement>, imei) => {
     console.log('cb change');
-    var device = props.devices.find(device => device.imei == imei)
+    var device = props.devices.find(device => device.imei === imei)
     if (device) {
       console.log(event.target.checked);
       device.checked = event.target.checked;
