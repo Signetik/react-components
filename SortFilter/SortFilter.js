@@ -26,6 +26,8 @@ function BulkActionsContent(props) {
 export function SortFilter(props) {
   const [bulkActionsDropShow, setBulkActionsDropShow] = useState(false);
 
+  var totalPages = Math.floor((props.count + props.stride - 1) / props.stride)
+
   function bulkActionsShowClick() {
     setBulkActionsDropShow(!bulkActionsDropShow)
   }
@@ -43,12 +45,12 @@ export function SortFilter(props) {
             <input id="search-val" type="search" placeholder="Search by all fields"></input>
           </div>
         </div>
-            <Pagination currentPage="1" totalPages="20"/>
+            <Pagination setPage={props.setPage} currentPage={props.currentPage} totalPages={totalPages}/>
         <div className="devices-selected">Rows selected:
           <span id="devices-selected-val"></span> 
         </div>
         <div className="devices-count">Devices: 
-          <span id="devices-count-val"></span>
+          <span id="devices-count-val">{props.count}</span>
         </div>
       </div>
     )

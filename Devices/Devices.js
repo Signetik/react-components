@@ -161,15 +161,21 @@ export function DevicesLoader(props) {
           //ws.send("Testing");
         //},5000)
 
-        if (!ws) {
-          ws = new WebSocket("ws://" + window.location.host + "/ws");
+        if (!ws.current) {
+          ws.current = new WebSocket("ws://" + baseuri + "/ws");
 
-          ws.onopen = function() {
+          ws.current.onopen = function() {
             //ws.send("Hello, world");
           };
-          ws.onmessage = function (evt) {
+          ws.current.onmessage = function (evt) {
             console.log(evt.data);
-            performGetDevices(props, newToken);
+            if (!deviceTimer) {
+              var timerId = setTimeout(()=>{
+                performGetDevices(props, newToken);
+                setDeviceTimer(null);
+                },2000);
+              setDeviceTimer(timerId);
+            }
           };
         }
 
@@ -184,7 +190,7 @@ export function DevicesLoader(props) {
     return function cleanup() {
       mounted.current = false
     }
-  }, [history])
+  }, [history, props, props.startDevice, deviceTimer, performGetDevices])
 
   return (<div></div>)
 }
