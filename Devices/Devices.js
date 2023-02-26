@@ -443,8 +443,8 @@ export function Devices(props) {
                 <td>{device.imei}</td>
                 <td>{device.m1fw}</td>
                 <td>{device.b1fw}</td>
-                <td>{device.m1fw_assigned}</td>
-                <td>{device.b1fw_assigned}</td>
+                <td className={`${device.m1fw_depends ? 'depends' : ''}`}>{device.m1fw_assigned}</td>
+                <td className={`${device.b1fw_depends ? 'depends' : ''}`}>{device.b1fw_assigned}</td>
                 <td>{dateConvert(device.modified)}</td>
                 <td>{device.desc}</td>
                 <td><Progress current={device.progress.current} total={device.progress.total} file={device.progress.file}/></td>
