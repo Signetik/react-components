@@ -142,7 +142,6 @@ export function DevicesLoader(props) {
   }, [history]);
 
   useEffect(() => {
-    console.log('useEffect')
 
    mounted.current = true
   console.log("loading token")

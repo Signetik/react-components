@@ -17,10 +17,6 @@ export function Pagination(props) {
             pagestart = 1;
     }
 
-    console.log("currentPage: " + props.currentPage);
-    console.log("pagestart: " + pagestart);
-    console.log("pageend: " + pageend);
-
     var pagination = []
     pagination.push(<div data-page={props.currentPage} data-total-pages={props.totalPages} />);
 
