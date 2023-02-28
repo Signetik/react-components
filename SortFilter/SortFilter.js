@@ -35,6 +35,7 @@ function BulkActionsContent(props) {
 
 export function SortFilter(props) {
   const [bulkActionsDropShow, setBulkActionsDropShow] = useState(false);
+  const [searchTimer, setSearchTimer] = useState(null);
 
   var totalPages = Math.floor((props.count + props.stride - 1) / props.stride)
 
@@ -42,7 +43,32 @@ export function SortFilter(props) {
     setBulkActionsDropShow(!bulkActionsDropShow)
   }
 
-    return (
+  function onSearchChange(event) {
+    if (searchTimer) {
+      clearTimeout(searchTimer);
+    }
+    if (event.target.value != "") {
+      var timerId = setTimeout(()=>{
+        setSearchTimer(null);
+        props.onSearchChange(event.target.value);
+          },2000);
+      setSearchTimer(timerId);
+    }
+    else {
+      props.onSearchChange(event.target.value);
+    }
+  }
+
+  function onSearchKeyDown(event) {
+    if (event.keyCode == 13) {
+      if (searchTimer) {
+        clearTimeout(searchTimer);
+      }
+      props.onSearchChange(event.target.value);
+    }
+  }
+
+  return (
       <div className="header-wrap">
         <div>
           <div className="dropdown devices-bulk-actions-btn" onClick={() => { bulkActionsShowClick(); }}>
@@ -52,7 +78,7 @@ export function SortFilter(props) {
           </div>
           <div className="search-devices">
             <label>Search</label>
-            <input id="search-val" type="search" placeholder="Search by all fields"></input>
+            <input id="search-val" type="search" placeholder="Search by all fields" onChange={onSearchChange} onKeyDown={onSearchKeyDown}></input>
           </div>
         </div>
             <Pagination setPage={props.setPage} currentPage={props.currentPage} totalPages={totalPages}/>

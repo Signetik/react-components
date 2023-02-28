@@ -42,7 +42,7 @@ function Menu() {
   )
 }
 
-function getDevices(token, start, end) {
+function getDevices(token, start, end, textQuery) {
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
@@ -50,7 +50,7 @@ function getDevices(token, start, end) {
   console.log("getDevices")
 
   return new Promise((resolve, reject) => {
-    fetch(`${baseurl}/api/devices?token=${token}&start=${start}&end=${end}`, requestOptions)
+    fetch(`${baseurl}/api/devices?token=${token}&start=${start}&end=${end}&textQuery=${textQuery}`, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data)
@@ -120,10 +120,11 @@ export function DevicesLoader(props) {
   const [deviceTimer, setDeviceTimer] = useState(null);
   const [startDevice, setStartDevice] = useState(-1);
   const [endDevice, setEndDevice] = useState(-1);
+  const [textQuery, setTextQuery] = useState("");
 
   const performGetDevices = React.useCallback((props, token) => {
     console.log("Requesting devices [" + token + "] " + props.startDevice + " -> " + props.endDevice)
-    getDevices(token, props.startDevice, props.endDevice)
+    getDevices(token, props.startDevice, props.endDevice, props.textQuery)
       .then((result) => {
         if (mounted.current) {
           props.setDeviceCount(result.count)
@@ -153,10 +154,11 @@ export function DevicesLoader(props) {
       if (mounted.current) {
         props.setToken(newToken)
 
-        if (!props.devices || (startDevice != props.startDevice) || (endDevice != props.endDevice)) {
+        if (!props.devices || (startDevice != props.startDevice) || (endDevice != props.endDevice) || (textQuery != props.textQuery)) {
           performGetDevices(props, newToken);
           setStartDevice(props.startDevice);
           setEndDevice(props.endDevice);
+          setTextQuery(props.textQuery);
         }
 
         if (!ws.current) {
@@ -166,11 +168,11 @@ export function DevicesLoader(props) {
             //ws.send("Hello, world");
           };
           ws.current.onmessage = function (evt) {
-            console.log(evt.data);
+            console.log("ws message: " + evt.data);
             if (!deviceTimer) {
               var timerId = setTimeout(()=>{
-                performGetDevices(props, newToken);
                 setDeviceTimer(null);
+                performGetDevices(props, newToken);
                 },2000);
               setDeviceTimer(timerId);
             }
@@ -403,7 +405,7 @@ export function Devices(props) {
           <Menu />
         </Col>
       </Row>
-      <SortFilter setPage={props.setPage} devicesSelected={devicesSelected.length} action={deviceAction} currentPage={props.currentPage} count={props.count} stride={props.stride} />
+      <SortFilter onSearchChange={props.onSearchChange} setPage={props.setPage} devicesSelected={devicesSelected.length} action={deviceAction} currentPage={props.currentPage} count={props.count} stride={props.stride} />
       <FirmwareDialog
         selectedValue={selectedValue}
         open={open}
