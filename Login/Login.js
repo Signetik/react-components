@@ -8,7 +8,7 @@ import { Redirect } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.css";
 import "./Login.css";
 
-const baseurl = (process.env.NODE_ENV == 'development') ? "http://fota19.aws.signetik.com" : ""
+const baseurl = (process.env.NODE_ENV === 'development') ? "http://fota19.aws.signetik.com" : ""
 
 let validtoken = false
 

@@ -20,9 +20,9 @@ import Box from '@material-ui/core/Box';
 import { blue } from '@material-ui/core/colors';
 import { LocalConvenienceStoreOutlined } from "@material-ui/icons"
 
-const baseuri = (process.env.NODE_ENV == 'development') ? "fota19.aws.signetik.com" : ""
-const baseurl = (process.env.NODE_ENV == 'development') ? "http://fota19.aws.signetik.com" : ""
-//const baseurl = (process.env.NODE_ENV == 'development') ? "http://ec2-44-211-212-146.compute-1.amazonaws.com" : ""
+const baseuri = (process.env.NODE_ENV === 'development') ? "fota19.aws.signetik.com" : window.location.host 
+const baseurl = (process.env.NODE_ENV === 'development') ? "http://fota19.aws.signetik.com" : ""
+//const baseurl = (process.env.NODE_ENV === 'development') ? "http://ec2-44-211-212-146.compute-1.amazonaws.com" : ""
 
 function Menu() {
   return (
