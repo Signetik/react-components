@@ -254,7 +254,7 @@ function firmwaresUpdate(devices, firmware) {
 
     console.log('for each device');
     devices.forEach((device) => {
-      console.log(device.imei);
+      console.log(device.devid);
       putFirmware(newToken, device._id, firmware._id);
     } )
     }
@@ -388,9 +388,9 @@ export function Devices(props) {
     }
   }
 
-  const handleCBChange = (event: React.ChangeEvent<HTMLInputElement>, imei) => {
+  const handleCBChange = (event: React.ChangeEvent<HTMLInputElement>, devid) => {
     console.log('cb change');
-    var device = props.devices.find(device => device.imei === imei)
+    var device = props.devices.find(device => device.devid === devid)
     if (device) {
       console.log(event.target.checked);
       device.checked = event.target.checked;
@@ -437,7 +437,7 @@ export function Devices(props) {
                     <CheckBox
                       className="checkbox-icon"
                       color="success"
-                      onChange={(event) => {handleCBChange(event, device.imei)}}
+                      onChange={(event) => {handleCBChange(event, device.devid)}}
                       />
                   </label>
                 </td>
