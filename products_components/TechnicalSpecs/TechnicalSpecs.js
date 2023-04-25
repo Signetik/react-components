@@ -35,7 +35,7 @@ const TechnicalSpecs = ({ specsData }) => {
                   ))}
                   </div>
                   <div className={"product-page__buy-links-sub"}>
-                  {distIndex >= 0 && specsData.buyLink[distIndex].link.map((item, index) => (
+                  {distIndex >= 0 && isBuyLinks && specsData.buyLink[distIndex].link.map((item, index) => (
                     <a href={item.link} key={index} rel="noreferrer" className="btn btn--main btn--light">{item.dist}</a>
                   ))}
 
