@@ -68,3 +68,11 @@
 .product-page__tech-specs.isExpanded button {
   margin-top: 40px;
 }
+
+.product-page__normal {
+  opacity: 0.5;
+}
+
+.product-page__select {
+  text-decoration: underline;
+}
