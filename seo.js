@@ -25,8 +25,8 @@ function SEO({ description, lang, meta, title }) {
       }
     `
   )
-
-  const metaDescription = description || site.siteMetadata.description
+*/
+  const metaDescription = description;
 
   return (
     <Helmet
@@ -34,7 +34,6 @@ function SEO({ description, lang, meta, title }) {
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
         {
           name: `description`,
@@ -57,10 +56,6 @@ function SEO({ description, lang, meta, title }) {
           content: `summary`,
         },
         {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
-        },
-        {
           name: `twitter:title`,
           content: title,
         },
@@ -71,8 +66,6 @@ function SEO({ description, lang, meta, title }) {
       ].concat(meta)}
     />
   )
-*/
-  return (<div></div>)
 }
 
 SEO.defaultProps = {
