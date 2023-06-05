@@ -2,19 +2,16 @@ import React from "react"
 import "./News.css"
 
 const NewsItem = ({
-                       number, text, src
+                       number, title, text, src
                      }) => {
   const textClassName = `news-text news-text-${number}`
   return (
     <div className="news-item">
         {
-          number == 1 ? (
-              <img className="newsimage-1" src={src} />
-          ) : number == 2 ? (
-            <img className="newsimage-2" src="https://picsum.photos/600/300" />
-          ) : ("")
+            <img className="newsimage-1" src={src} />
         }
-      <div className={textClassName}>{text}</div>
+      <div className={textClassName}>{title}</div>
+      <div className="news-text-long" >{text}</div>
     </div>
   )
 }
