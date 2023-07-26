@@ -85,6 +85,9 @@ export default function Login(props) {
     return (<Redirect to={props.redirect} />)
   }
 
+  const current = new Date();
+  const date = `${current.getFullYear()}.${current.getMonth()+1}.${current.getDate()}`;
+
 
   return (
   <div className="Login">
@@ -111,6 +114,7 @@ export default function Login(props) {
     </Form>
     <br />
     <Alert show={alertVisible} variant="warning">{alert}</Alert>
+    <div style={{fontSize: "10px"}}>{date}</div>
   </div>
   )
 }
