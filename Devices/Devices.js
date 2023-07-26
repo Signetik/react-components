@@ -45,7 +45,7 @@ function Menu() {
 function getDevices(token, start, end, textQuery) {
   const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + token }
   };
   console.log("getDevices")
 
@@ -68,7 +68,7 @@ function getDevices(token, start, end, textQuery) {
 function getFirmwares(token, start, end) {
   const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + token }
   };
   console.log("getFirmwares")
 
