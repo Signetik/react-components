@@ -1,17 +1,17 @@
 import React from "react"
-import "./News.css"
+import styles from "./News.module.css"
 
 const NewsItem = ({
                        number, title, text, src
                      }) => {
-  const textClassName = `news-text news-text-${number}`
+  const textClassName = `news-text-${number}`
   return (
-    <div className="news-item">
+    <div className={styles["news-item"]}>
         {
-            <img className="newsimage-1" src={src} />
+            <img className={styles["newsimage-1"]} src={src} />
         }
-      <div className={textClassName}>{title}</div>
-      <div className="news-text-long" >{text}</div>
+      <div className={`${styles["news-text"]} ${styles[textClassName]}`}>{title}</div>
+      <div className={styles["news-text-long"]} >{text}</div>
     </div>
   )
 }

@@ -1,0 +1,43 @@
+.menu {
+  background-color: var(--main-color);
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20%;
+  padding-right: 20%;
+  cursor: pointer;
+}
+
+.navbar {
+  overflow: hidden;
+  z-index: 2;
+}
+
+
+@media (max-width: 800px) {
+  .menu {
+    height: 50px;
+  }
+}
+
+.menuitem-subhead {
+  display: block;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .menu {
+    height: 50px;
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 75px;
+}

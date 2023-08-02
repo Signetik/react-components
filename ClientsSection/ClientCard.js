@@ -1,14 +1,14 @@
 import React from "react"
-import "./ClientCard.css"
+import styles from "./ClientCard.module.css"
 
 const ClientCard = ({ img, name, role }) => {
   return (
-    <div className="clientCard">
+    <div className={styles["clientCard"]}>
       <div
-        className="clientCard__img"
+        className={styles["clientCard__img"]}
         style={{ backgroundImage: `url('${img}')` }}
       />
-      <div className="clientCard__content">
+      <div className={styles["clientCard__content"]}>
         <h3>{name}</h3>
         <p>{role}</p>
       </div>

@@ -1,5 +1,7 @@
 import React, { useState } from "react"
-import { Router, Link } from "react-router-dom";
+//import { Router, Link } from "react-router-dom";
+import Link from "next/link"
+import styles from "./TopMenuItem.module.css"
 
 const TopMenuItem = ({
   disabled,
@@ -18,14 +20,14 @@ const TopMenuItem = ({
     <div
       role="menubar"
       tabIndex={indexTab}
-      className="menuitem"
+      className={styles["menuitem"]}
       onMouseLeave={() => setShowMenu(false)}
     >
       <div
         role="menubar"
         tabIndex={indexTab}
         className={
-          disabled ? "menuitem-head menuitem-head-disabled" : "menuitem-head"
+          disabled ? `${styles["menuitem-head"]} ${styles["menuitem-head-disabled"]}` : styles["menuitem-head"]
         }
         onMouseEnter={() => setShowMenu(true)}
         onClick={disabled ? null : onClick}
@@ -38,25 +40,25 @@ const TopMenuItem = ({
         {label}
       </div>
       <div
-        className="menuitem-drop"
+        className={styles["menuitem-drop"]}
         style={{
           display: showMenu && subMenu ? "block" : "none",
         }}
       >
-        <div className="menuitem-carat" />
-        <div className="menuitem-sub">{children}</div>
+        <div className={styles["menuitem-carat"]} />
+        <div className={styles["menuitem-sub"]}>{children}</div>
       </div>
     </div>
   ) : (
-    <div role="menubar" className="menuitem">
-      <Link to={"" + linkTo} tabIndex={indexTab} role="menubar" className="menuitem-head">{label}</Link>
+    <div role="menubar" className={styles["menuitem"]}>
+      <Link href={"" + linkTo} tabIndex={indexTab} role="menubar" className={styles["menuitem-head"]}>{label}</Link>
     </div>
   )
 }
 
 export const TopMenuSubItem = ({ linkTo, children }) => {
   return (
-    <Link className="menuitem-subhead" to={linkTo}>
+    <Link className={styles["menuitem-subhead"]} href={linkTo}>
       {children}
     </Link>
   )

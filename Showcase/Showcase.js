@@ -3,18 +3,17 @@ import { Slide } from "react-slideshow-image"
 
 import 'react-slideshow-image/dist/styles.css'
 
-import "../../styles/fonts.css"
-import "./Showcase.css"
+import styles from "./Showcase.module.css"
 
-import AgImg from "../../images/Agriculture.png"
-import BuildImg from "../../images/Buildings.png"
-import EnvImg from "../../images/Environment.png"
-import HealthImg from "../../images/Healthcare.png"
-import IndImg from "../../images/Industrial Control.png"
-import LogImg from "../../images/Logistics.png"
-import CityImg from "../../images/Smart Cities.png"
+import AgImg from "../../public/images/Agriculture.png"
+import BuildImg from "../../public/images/Buildings.png"
+import EnvImg from "../../public/images/Environment.png"
+import HealthImg from "../../public/images/Healthcare.png"
+import IndImg from "../../public/images/Industrial Control.png"
+import LogImg from "../../public/images/Logistics.png"
+import CityImg from "../../public/images/Smart Cities.png"
 
-const slideImages = [AgImg, IndImg, HealthImg, BuildImg, EnvImg, LogImg, CityImg]
+const slideImages = ["/images/Agriculture.png", "/images/Industrial Control.png", "/images/Healthcare.png", "/images/Buildings.png", "/images/Environment.png", "/images/Logistics.png", "/images/Smart Cities.png"]
 
 const slideCaptions = ["AGRICULTURE", "INDUSTRIAL", "HEALTHCARE", "BUILDINGS", "ENVIRONMENTAL", "LOGISTICS", "SMART CITIES"]
 
@@ -33,7 +32,7 @@ class Slideshow extends React.Component {
 
   render() {
     return (
-      <div className="slide-container">
+      <div className={styles["slide-container"]}>
         <Slide
           duration={5000}
           transitionDuration={500}
@@ -43,25 +42,25 @@ class Slideshow extends React.Component {
           pauseOnHover={false}
           onChange={this.onChange}
         >
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[0]} alt={slideCaptions[0]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[1]} alt={slideCaptions[1]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[2]} alt={slideCaptions[2]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[3]} alt={slideCaptions[3]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[4]} alt={slideCaptions[4]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[5]} alt={slideCaptions[5]} />
           </div>
-          <div className="each-slide">
+          <div className={styles["each-slide"]}>
             <img src={slideImages[6]} alt={slideCaptions[6]} />
           </div>
         </Slide>
@@ -75,7 +74,7 @@ class Showcase extends React.Component {
     super(props)
 
     this.indexRef = React.createRef()
-    this.state = { image: AgImg }
+    this.state = { image: "/images/Agriculture.png" }
     this.setCaption = this.setCaption.bind(this)
     this.state = { imageCaption: "AGRICULTURE", fade: false }
   }
@@ -90,11 +89,11 @@ class Showcase extends React.Component {
 
   render() {
     return (
-      <div className="showcase">
+      <div className={styles["showcase"]}>
         <Slideshow setCaption={this.setCaption} />
-        <div className="backtext">
-          <div className="backtext1">CONNECTING TECHNOLOGY WITH</div>
-          <div className={this.state.fade ? "backtext2out" : "backtext2in"}>
+        <div className={styles["backtext"]}>
+          <div className={styles["backtext1"]}>CONNECTING TECHNOLOGY WITH</div>
+          <div className={this.state.fade ? styles["backtext2out"] : styles["backtext2in"]}>
             {this.state.imageCaption}
           </div>
         </div>

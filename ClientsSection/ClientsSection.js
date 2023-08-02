@@ -2,15 +2,16 @@ import React from "react"
 import ClientCard from "./ClientCard"
 //import { graphql, useStaticQuery } from "gatsby"
 
-import "./ClientsSection.css"
+import styles from "./ClientsSection.module.css"
 
-import data from '../../data/clients.json';
+import clients from '../../data/clients.json';
 
-const ClientsSection = () => {
-  var index = [0, 0, 0]
-
-  var clients = data
+export function generateRandomClientsIndex() {
   var count = clients.length
+
+  var index = new Array(count);
+
+  index.fill(0);
 
   var idx = 0
   while (idx < 3) {
@@ -22,16 +23,26 @@ const ClientsSection = () => {
       }
     }
     if (!duplicate) {
-      console.log("Index " + idx.toString() + " value " + r.toString())
+      //console.log("Index " + idx.toString() + " value " + r.toString())
       index[idx++] = r;
     }
   }
 
+  return index;
+}
+
+const ClientsSection = ({clientsIndex}) => {
+  const index = clientsIndex;
+
+  if (!index) {
+    return <div>Loading...</div>
+  }
+
   return (
-    <section className="clientsSec">
-      <div className="clientContainer">
+    <section className={styles["clientsSec"]}>
+      <div className={styles["clientContainer"]}>
         <h2 className="sec-title">Our Customers</h2>
-        <div className="clientsWrap">
+        <div className={styles["clientsWrap"]}>
           { index.map(idx => (
             <ClientCard
               key={clients[idx].name}

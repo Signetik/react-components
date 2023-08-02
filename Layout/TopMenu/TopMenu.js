@@ -1,5 +1,5 @@
 import React from "react"
-import "./TopMenu.css"
+import styles from "./TopMenu.module.css"
 import TopMenuItem, { TopMenuSubItem } from "./TopMenuItem"
 
 import menudata from '../../../data/topmenu.json';
@@ -14,10 +14,10 @@ class TopMenu extends React.Component {
 
   render() {
     return (
-      <div className="navbar" id="navbar">
-      <div className="menu" id="menu">
+      <div className={styles["navbar"]} id="navbar">
+      <div className={styles["menu"]}  id="menu">
         { menudata.map(item => (
-          <TopMenuItem label={item.label} indexTab={item.indexTab} linkTo={item.linkTo}>
+          <TopMenuItem key={item.label} label={item.label} indexTab={item.indexTab} linkTo={item.linkTo}>
             {item.label}
           </TopMenuItem>
         ))}
