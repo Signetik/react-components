@@ -76,3 +76,7 @@
 .product-page__select {
   text-decoration: underline;
 }
+
+.product-page__tech-specs h3 {
+  text-align: center;
+}

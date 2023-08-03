@@ -1,7 +1,7 @@
 import React from "react"
 //import { Link } from "gatsby"
 import "./ProductBox.css"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 
 const ProductBox = ({
   align,
@@ -34,7 +34,7 @@ const ProductBox = ({
           <div dangerouslySetInnerHTML={{
                     __html: description,
                     }} />
-          <Link to={"" + link} className="btn btn--main">learn more</Link>
+          <Link href={"" + link} className="btn btn--main">learn more</Link>
         </div>
       </div>
       {align === "right" ? (
