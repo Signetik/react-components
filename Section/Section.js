@@ -1,6 +1,6 @@
 import React from "react"
 
-import "../../styles/fonts.css"
+//import "../../styles/fonts.css"
 import styles from "./Section.module.css"
 
 class Section extends React.Component {
