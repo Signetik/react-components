@@ -1,6 +1,6 @@
 import React from "react"
 //import { Link } from "gatsby"
-import "./ProductBox.css"
+import styles from "./ProductBox.module.css"
 import Link from "next/link"
 
 const ProductBox = ({

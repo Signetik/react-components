@@ -11,6 +11,8 @@ class Section extends React.Component {
           <img src={this.props.img} alt="" />
           <div className={styles["section-caption"]}>{this.props.caption}</div>
         </div>
+        <div>{this.props.children}</div>
+
       </div>
     )
   }
