@@ -21,7 +21,7 @@ const ExpertiseBox = ({
         ""
       )}
       <div
-        className={`styles["productbox__text"] ${
+        className={`${styles["productbox__text"]} ${
           align !== "right"
             ? styles["productbox__text--right"]
             : styles["productbox__text--left"]
@@ -34,7 +34,7 @@ const ExpertiseBox = ({
                     __html: description,
                     }} />
           { link ? (
-            <a href={link} className={`styles["btn"] styles["btn--main"]`}>
+            <a href={link} className={`${styles["btn"]} ${styles["btn--main"]}`}>
               learn more
             </a>
           ) : ("")}
