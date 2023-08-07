@@ -1,15 +1,15 @@
 import React from "react"
 
 import "../../styles/fonts.css"
-import "./Section.css"
+import styles from "./Section.module.css"
 
 class Section extends React.Component {
   render() {
     return (
       <div>
-        <div className="section-header">
+        <div className={styles["section-header"]}>
           <img src={this.props.img} alt="" />
-          <div className="section-caption">{this.props.caption}</div>
+          <div className={styles["section-caption"]}>{this.props.caption}</div>
         </div>
       </div>
     )
