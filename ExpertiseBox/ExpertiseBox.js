@@ -1,6 +1,6 @@
 import React from "react"
 //import { Link } from "gatsby"
-import "./ExpertiseBox.css"
+import styles from "./ExpertiseBox.module.css"
 
 const ExpertiseBox = ({
   align,
@@ -12,19 +12,19 @@ const ExpertiseBox = ({
   link,
 }) => {
   return (
-    <div className="productbox">
+    <div className={styles["productbox"]}>
       {align !== "right" ? (
-        <div className="productbox__img">
+        <div className={styles["productbox__img"]}>
           <img src={imageSrc} alt={imageAlt} />
         </div>
       ) : (
         ""
       )}
       <div
-        className={`productbox__text ${
+        className={`styles["productbox__text"] ${
           align !== "right"
-            ? "productbox__text--right"
-            : "productbox__text--left"
+            ? styles["productbox__text--right"]
+            : styles["productbox__text--left"]
         }`}
       >
         <div>
@@ -34,14 +34,14 @@ const ExpertiseBox = ({
                     __html: description,
                     }} />
           { link ? (
-            <a href={link} className="btn btn--main">
+            <a href={link} className={`styles["btn"] styles["btn--main"]`}>
               learn more
             </a>
           ) : ("")}
         </div>
       </div>
       {align === "right" ? (
-        <div className="productbox__img">
+        <div className={styles["productbox__img"]}>
           <img src={imageSrc} alt={imageAlt} />
         </div>
       ) : (
