@@ -9,7 +9,7 @@ import clients from '../../data/clients.json';
 export function generateRandomClientsIndex() {
   var count = clients.length
 
-  var index = new Array(count);
+  var index = new Array(3);
 
   index.fill(0);
 
@@ -49,6 +49,7 @@ const ClientsSection = ({clientsIndex}) => {
               img={clients[idx].image}
               name={clients[idx].name}
               role={clients[idx].description}
+              target={clients[idx].target}
             />
           ))}
         </div>

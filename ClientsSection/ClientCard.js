@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "./ClientCard.module.css"
 
-const ClientCard = ({ img, name, role }) => {
+const ClientCard = ({ img, name, role, target }) => {
   return (
     <div className={styles["clientCard"]}>
       <div
@@ -9,7 +9,7 @@ const ClientCard = ({ img, name, role }) => {
         style={{ backgroundImage: `url('${img}')` }}
       />
       <div className={styles["clientCard__content"]}>
-        <h3>{name}</h3>
+        <h3><a href={target}>{name}</a></h3>
         <p>{role}</p>
       </div>
     </div>

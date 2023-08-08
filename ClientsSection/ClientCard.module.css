@@ -20,6 +20,10 @@
   text-transform: uppercase;
 }
 
+.clientCard__content a {
+    color: var(--main-color);
+}
+
 .clientCard__content h3 {
   font-size: 30px;
   font-weight: 700;
