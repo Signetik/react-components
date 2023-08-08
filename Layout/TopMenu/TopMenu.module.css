@@ -39,7 +39,11 @@
 .sticky {
   position: fixed;
   top: 0;
+  display: block;
   width: 100%;
+  width: calc(100vw - 16px);
+  box-sizing: border-box;
+
 }
 
 .sticky + .content {
