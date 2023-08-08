@@ -12,6 +12,7 @@ const TopMenuItem = ({
   indexTab,
   // just a default to prevent bugs
   linkTo,
+  external,
   // linkTo = "/",
 }) => {
   const [showMenu, setShowMenu] = useState(false)
@@ -49,6 +50,11 @@ const TopMenuItem = ({
         <div className={styles["menuitem-sub"]}>{children}</div>
       </div>
     </div>
+  ) : external ? (
+    <div role="menubar" className={styles["menuitem"]}>
+      <a target="_blank" href={"" + linkTo} tabIndex={indexTab} role="menubar" className={styles["menuitem-head"]}>{label}</a>
+    </div>
+
   ) : (
     <div role="menubar" className={styles["menuitem"]}>
       <Link href={"" + linkTo} tabIndex={indexTab} role="menubar" className={styles["menuitem-head"]}>{label}</Link>
@@ -56,9 +62,16 @@ const TopMenuItem = ({
   )
 }
 
-export const TopMenuSubItem = ({ linkTo, children }) => {
+export const TopMenuSubItem = ({ linkTo, external, children }) => {
+  if (external) {
+    return (
+    <a target="_blank" className={styles["menuitem-subhead"]} href={linkTo}>
+      {children}
+    </a>
+    )
+  }
   return (
-    <Link className={styles["menuitem-subhead"]} href={linkTo}>
+    <Link target="_blank" className={styles["menuitem-subhead"]} href={linkTo}>
       {children}
     </Link>
   )

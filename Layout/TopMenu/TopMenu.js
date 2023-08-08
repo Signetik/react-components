@@ -18,7 +18,7 @@ class TopMenu extends React.Component {
       <div className={styles["navbar"]} id="navbar">
       <div className={styles["menu"]}  id="menu">
         { menudata.map(item => (
-          <TopMenuItem key={item.label} label={item.label} indexTab={item.indexTab} linkTo={item.linkTo}>
+          <TopMenuItem key={item.label} external={item.external ? true : false} label={item.label} indexTab={item.indexTab} linkTo={item.linkTo}>
             {item.label}
           </TopMenuItem>
         ))}
