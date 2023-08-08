@@ -49,7 +49,7 @@
 }
 
 .each-slide {
-  height: auto;
+    height: calc(100vw / 1920 * 730);
 }
 
 .each-slide > img {
