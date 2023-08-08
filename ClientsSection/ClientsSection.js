@@ -22,7 +22,7 @@ export function generateRandomClientsIndex() {
         duplicate = true
       }
     }
-    if (!duplicate) {
+    if (!duplicate && !clients[r].disabled) {
       //console.log("Index " + idx.toString() + " value " + r.toString())
       index[idx++] = r;
     }
