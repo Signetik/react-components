@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+.navbar-wrapper {
+  height: 75px;
+}
+
 .navbar {
   overflow: hidden;
   z-index: 2;

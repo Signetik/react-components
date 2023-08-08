@@ -14,6 +14,7 @@ class TopMenu extends React.Component {
 
   render() {
     return (
+      <div className={styles["navbar-wrapper"]}>
       <div className={styles["navbar"]} id="navbar">
       <div className={styles["menu"]}  id="menu">
         { menudata.map(item => (
@@ -98,6 +99,7 @@ class TopMenu extends React.Component {
           {*/}
       </div>
       </div>
+      </div>
     )
   }
   /* https://www.w3schools.com/howto/howto_js_navbar_sticky.asp */
@@ -111,9 +113,9 @@ class TopMenu extends React.Component {
       console.log("sticky: " + this.sticky.toString())
 
       if (window.pageYOffset >= this.sticky) {
-        this.navbar.classList.add("sticky")
+        this.navbar.classList.add(styles["sticky"])
       } else {
-        this.navbar.classList.remove("sticky");
+        this.navbar.classList.remove(styles["sticky"]);
       }
     });
   }
