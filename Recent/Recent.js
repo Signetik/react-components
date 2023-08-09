@@ -5,7 +5,7 @@ import "./Recent.css"
 // import Thumbnail from "../Thumbnail/Thumbnail"
 
 import { productsPlaceholders } from "../../placeholder_data/products"
-import ProductBox from "../products_components/ProductBox/ProductBox"
+import ProductBox from "../Products/ProductBox/ProductBox"
 
 export const Recent = () => (
   <section className="recentProducts">
