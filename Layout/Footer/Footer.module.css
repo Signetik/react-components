@@ -2,10 +2,21 @@
   background-color: #3c3c3c;
 }
 
+.logo-img-wrapper {
+  height: 120px;
+  display: flex;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+.logo-img {
+  height: 100px;
+}
+
 .container {
   padding: 0 15px;
   margin: 0 auto;
-  width: 1556px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footerlinks {
@@ -21,23 +32,25 @@
 
 .footerlinkheader {
   font-family: "Poppins", sans-serif;
-  font-size: 11pt;
+  font-size: 12pt;
   font-weight: 600; /* semibold */
   color: white;
-  padding-bottom: 5px;
+  padding-bottom: 6px;
 }
 
 .footerlinkitem {
   font-family: "Poppins", sans-serif;
-  font-size: 9pt;
+  font-size: 10pt;
   color: white;
-  padding-bottom: 2px;
+  padding-bottom: 6px;
+  padding-left: 4px;
+  text-decoration: none;
 }
 
 .footerinfo {
   border-top: solid thin white;
   font-family: "Poppins", sans-serif;
-  font-size: 9pt;
+  font-size: 10pt;
   color: white;
   padding: 10px;
   text-align: center;
