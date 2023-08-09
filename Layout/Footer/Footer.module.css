@@ -1,12 +1,12 @@
 .footer {
   background-color: #3c3c3c;
+  padding: 30px;
 }
 
 .logo-img-wrapper {
   height: 120px;
   display: flex;
-  margin-left: 20px;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 .logo-img {
   height: 100px;
