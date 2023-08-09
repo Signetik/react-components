@@ -113,7 +113,8 @@ const Footer = () => (
       <FooterLinks />
     </div>
     <div className={styles["footerinfo"]}>
-      &copy; Signetik 2020-{new Date().getFullYear()}
+      &copy; {new Date().getFullYear()} Signetik, LLC<br />
+      All rights reserved.
     </div>
   </div>
 )
