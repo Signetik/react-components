@@ -1,16 +1,15 @@
 .menu {
-  background-color: var(--main-color);
-  height: 75px;
+/*  background-color: var(--menu-color); */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 20%;
-  padding-right: 20%;
+  align-items: right;
+  justify-content: right;
+  padding-left: 0%;
+  padding-right: 0%;
   cursor: pointer;
 }
 
 .navbar-wrapper {
-  height: 75px;
+  height: auto;
 }
 
 .navbar {

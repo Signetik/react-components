@@ -12,17 +12,13 @@
     font-family: poppins, sans-serif;
     font-weight: bold;
     font-size: 13pt;
-    color: white;
-    height: 75px;
-    line-height: 75px;
+    color: var(--off-black-color);
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 0px;
   }
 
   @media (max-width: 800px) {
     .menuitem-head {
-      height: 50px;
-      line-height: 50px;
       padding-left: 15px;
       padding-right: 15px;
       font-size: 11pt;
@@ -36,8 +32,6 @@
   
   @media (max-width: 600px) {
     .menuitem-head {
-      height: 50px;
-      line-height: 50px;
       padding-left: 15px;
       padding-right: 15px;
       font-size: 10pt;
@@ -45,7 +39,7 @@
   }
     
   .menuitem-head-disabled {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.5);
   }
   
   .menuitem-head:focus {
@@ -53,7 +47,8 @@
   }
   
   .menuitem-head:hover {
-    color: white;
+    color: var(--off-black-color-dim70);
+    text-decoration: underline;
   }
   /* 
   .menuitem-drop {
