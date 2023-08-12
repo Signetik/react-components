@@ -15,7 +15,7 @@ import CityImg from "../../public/images/Smart Cities.png"
 
 const slideImages = ["/images/Agriculture.png", "/images/Industrial Control.png", "/images/Healthcare.png", "/images/Buildings.png", "/images/Environment.png", "/images/Logistics.png", "/images/Smart Cities.png"]
 
-const slideCaptions = ["AGRICULTURE", "INDUSTRIAL", "HEALTHCARE", "BUILDINGS", "ENVIRONMENTAL", "LOGISTICS", "SMART CITIES"]
+const slideCaptions = ["AGRICULTURE", "INDUSTRIAL", "HEALTHCARE", "BUILDINGS", "ENVIRONMENT", "LOGISTICS", "SMART CITIES"]
 
 class Slideshow extends React.Component {
   constructor(props) {
@@ -92,7 +92,7 @@ class Showcase extends React.Component {
       <div className={styles["showcase"]}>
         <Slideshow setCaption={this.setCaption} />
         <div className={styles["backtext"]}>
-          <div className={styles["backtext1"]}>CONNECTING TECHNOLOGY WITH</div>
+          <div className={styles["backtext1"]}>TECHNOLOGY FOR</div>
           <div className={this.state.fade ? styles["backtext2out"] : styles["backtext2in"]}>
             {this.state.imageCaption}
           </div>
