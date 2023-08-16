@@ -20,7 +20,7 @@
   @media (max-width: 800px) {
     .menuitem-head {
       padding-left: 15px;
-      padding-right: 15px;
+      padding-right: 0px;
       font-size: 11pt;
     }
   }
@@ -32,8 +32,8 @@
   
   @media (max-width: 600px) {
     .menuitem-head {
-      padding-left: 15px;
-      padding-right: 15px;
+      padding-left: 10px;
+      padding-right: 0px;
       font-size: 10pt;
     }
   }
