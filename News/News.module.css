@@ -32,20 +32,24 @@
 
 .newsimage-wrapper {
     height: 200px;
+    position: relative;
 }
 
 .newsimage img {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);    
     border-radius: 8px;
     margin: 5px;
     max-height: 200px;
     width: auto;
+    max-width: 90%;
 }
 
 .newsimage-1 {
     /* width: 600px;
     height: 300px; */
     /* width: 30%; */
-    height: 250px;
 }
 
 .newsimage-2 {
