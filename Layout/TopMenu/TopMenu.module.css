@@ -18,7 +18,7 @@
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 200px) {
   .menu {
     flex-direction: row;
   }
@@ -47,7 +47,7 @@
   padding-top: 75px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 100px) {
   .menu {
     flex-direction: column;
     width: auto;
