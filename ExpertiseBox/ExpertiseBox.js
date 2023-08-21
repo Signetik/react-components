@@ -8,6 +8,7 @@ const ExpertiseBox = ({
   imageAlt,
   name,
   description,
+  details,
   index,
   link,
 }) => {
