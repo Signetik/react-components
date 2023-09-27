@@ -31,7 +31,7 @@ const TechnicalSpecs = ({ specsData }) => {
                 <div className={styles["product-page__buy-links"]}>
                   <div className={styles["product-page__buy-links-sub"]}>
                   {isBuyLinks && specsData.buyLink.map((item, index) => (
-                    <a href="javascript:void(0)" key={index} rel="noreferrer" className={`btn btn--main btn--light ${distIndex === index ? 'product-page__select' : 'product-page__normal'}`} onClick={() => setDistIndex(index)}>{item.mpn}</a>
+                    <a href="javascript:void(0)" key={index} rel="noreferrer" className={`btn btn--main btn--light ${distIndex === index ? styles['product-page__select'] : styles['product-page__normal']}`} onClick={() => setDistIndex(index)}>{item.mpn}</a>
                   ))}
                   </div>
                   <div className={styles["product-page__buy-links-sub"]}>
